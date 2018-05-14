@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdone.module.mapper.Staff">
+
+    <resultMap id="StaffMap" type="com.qdone.module.model.Staff">
+        <result property="pkid" column="PKID"/>
+        <result property="sname" column="SNAME"/>
+        <result property="sex" column="SEX"/>
+        <result property="age" column="AGE"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="createby" column="CREATEBY"/>
+        <result property="updateDate" column="UPDATE_DATE"/>
+        <result property="updateby" column="UPDATEBY"/>
+        <result property="police" column="POLICE"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        PKID,SNAME,SEX,AGE,CREATE_DATE,CREATEBY,
+        UPDATE_DATE,UPDATEBY,POLICE
+    </sql>
+
+    <sql id="dynamicWhere">
+   	   <trim  suffixOverrides="," prefix="WHERE" prefixOverrides="AND">
+          <if test="pkid!=null and pkid!=''">
+              AND PKID = #{pkid}
+          </if>
+          <if test="sname!=null and sname!=''">
+             AND SNAME LIKE concat('%',#{sname},'%')
+          </if>
+          <if test="sex!=null and sex!=''">
+             AND SEX LIKE concat('%',#{sex},'%')
+          </if>
+          <if test="age!=null and age!=''">
+             AND AGE = #{age}
+          </if>
+          <if test="createDate!=null">
+             AND CREATE_DATE = #{createDate}
+          </if>
+          <if test="createby!=null and createby!=''">
+             AND CREATEBY LIKE concat('%',#{createby},'%')
+          </if>
+          <if test="updateDate!=null">
+             AND UPDATE_DATE = #{updateDate}
+          </if>
+          <if test="updateby!=null and updateby!=''">
+             AND UPDATEBY LIKE concat('%',#{updateby},'%')
+          </if>
+         <!--  <if test="police!=null and police!=''">
+             AND POLICE = #{police}
+          </if> -->
+       </trim>
+    </sql>
+
+    <!-- select -->
+    <select id="select" parameterType="com.qdone.module.model.Staff"  resultMap="StaffMap">
+      SELECT <include refid="allColumns" />
+      FROM STAFF  <include refid="dynamicWhere" />  
+    </select>
+
+    <!-- view -->
+    <select id="view" parameterType="java.lang.String"  resultMap="StaffMap">
+      SELECT <include refid="allColumns" />
+      FROM STAFF WHERE pkid = #{pkid,jdbcType=VARCHAR}
+    </select>
+
+    <!-- queryBean -->
+    <select id="queryBean" parameterType="com.qdone.module.model.Staff"  resultMap="StaffMap">
+      SELECT <include refid="allColumns" />
+      FROM STAFF  <include refid="dynamicWhere" /> 
+    </select>
+
+    <!-- batchInsert -->
+    <select id="batchInsert" parameterType="java.util.List">
+      INSERT INTO STAFF (<include refid="allColumns" />) 
+          VALUES(
+          <foreach collection="list" item="item" index="index" separator=","> 
+            (
+                #{item.pkid,jdbcType=VARCHAR},#{item.sname,jdbcType=VARCHAR},#{item.sex,jdbcType=VARCHAR},#{item.age,jdbcType=INTEGER},#{item.createDate,jdbcType=TIMESTAMP},#{item.createby,jdbcType=VARCHAR},
+        #{item.updateDate,jdbcType=TIMESTAMP},#{item.updateby,jdbcType=VARCHAR},#{item.police,jdbcType=LONGVARBINARY}      
+            )      
+          </foreach>
+    </select>
+
+    <!-- insert -->
+    <insert id="insert" parameterType="com.qdone.module.model.Staff">
+      INSERT INTO STAFF (<include refid="allColumns" />) 
+      VALUES(
+        #{pkid,jdbcType=VARCHAR},#{sname,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},#{createDate,jdbcType=TIMESTAMP},#{createby,jdbcType=VARCHAR},
+        #{updateDate,jdbcType=TIMESTAMP},#{updateby,jdbcType=VARCHAR},#{police,jdbcType=LONGVARBINARY}
+        )
+    </insert>
+
+    <!-- update -->
+    <update id="update" parameterType="com.qdone.module.model.Staff">
+      UPDATE  STAFF  
+         <set>    
+             <if test="sname!=null">SNAME = #{sname,jdbcType=VARCHAR},</if>
+             SEX = #{sex,jdbcType=VARCHAR},
+             AGE = #{age,jdbcType=INTEGER},
+             CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+             CREATEBY = #{createby,jdbcType=VARCHAR},
+             UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+             UPDATEBY = #{updateby,jdbcType=VARCHAR},
+             POLICE = #{police,jdbcType=LONGVARBINARY}
+         </set>
+		WHERE pkid = #{pkid,jdbcType=VARCHAR}
+    </update>
+
+    <!-- batchUpdate -->
+    <update id="batchUpdate" parameterType="java.util.Map">
+      UPDATE  STAFF  
+         <set>    
+             <if test="sname!=null">SNAME = #{sname,jdbcType=VARCHAR},</if>
+             SEX = #{sex,jdbcType=VARCHAR},
+             AGE = #{age,jdbcType=INTEGER},
+             CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+             CREATEBY = #{createby,jdbcType=VARCHAR},
+             UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+             UPDATEBY = #{updateby,jdbcType=VARCHAR},
+             POLICE = #{police,jdbcType=LONGVARBINARY}
+         </set>
+		WHERE pkid IN 
+      <foreach collection="pkList" index="index" item="item" open="(" separator="," close=")"> 
+        #{item}   
+      </foreach>
+    </update>
+
+    <!-- delete -->
+    <delete id="delete" parameterType="java.lang.String">
+      DELETE FROM STAFF WHERE pkid = #{pkid,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- batchDelete -->
+    <delete id="batchDelete" parameterType="java.util.List">
+      DELETE FROM STAFF  WHERE pkid  IN  
+       <foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item.pkid,jdbcType=VARCHAR}
+       </foreach> 
+    </delete>
+
+</mapper>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>freemarker测试</title>
+<meta name="description" content="" />
+<meta name="author" content="pc" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<meta name="screen-orientation" content="portrait">
+<meta name="format-detection" content="telephone=no" />
+<#include "/inc/common.html">
+</head>
+<body>
+	<a href="http://blog.csdn.net/u011118289/article/details/43306015"
+		target="_blank"><span color='blue'>参考资料1</span></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="https://www.cnblogs.com/best/archive/2016/08/01/5681511.html#_label3_3_4_0"
+		target="_blank"><span color='blue'>参考资料2</span></a><br>
+	freemarker注释,采用<#noparse><#--待注释内容--></#noparse>方式，来注释代码
+	<p>include指令的作用类似于JSP的包含指令,用于包含指定页.include指令的语法格式如下:</p>
+      <#noparse><#include "/inc/common.html"></#noparse>
+		在上面的语法格式中,两个参数的解释如下:<br>
+			filename:该参数指定被包含的模板文件<br>
+			options:该参数可以省略,指定包含时的选项,包含encoding和parse两个选项,其中encoding指定包含页面时所用的解码集,
+			而parse指定被包含文件是否作为FTL文件来解析,如果省略了parse选项值,则该选项默认是true.<br>
+	<p>获取request存储的map类型 代码:<#noparse>${map.sname}</#noparse> 结果:${map.sname}</p>
+	<p>获取request存储的map类型 代码:<#noparse>${map.sex}</#noparse> 结果:${map.sex}</p>
+	<p>获取request存储的map类型 代码:<#noparse>${map.age}</#noparse> 结果:${map.age}</p>
+	<p><font color='blue'>freemakrer针对后台传递的参数中，含有特殊字符时，可以采用如下方式:<br>
+	         后台:req.setAttribute("special", "><");<br>
+	前台 代码:<#noparse><#if special ??>${special?html}&lt;/#if&gt;</#noparse> 结果:<#if special ??>${special?html}</#if>
+	</font></p>
+	<#-- <p>获取request存储的map类型:${map.birthday}</p>-->
+         设置参数 代码: <#noparse><#assign price = 42 /></#noparse> 结果:<#assign price=42 /><br>
+         获取参数 代码: <#noparse>${price}</#noparse>  结果:${price}<br>
+         字符串显示 代码:<#noparse>${price?string}</#noparse> 结果:${price?string} <br>
+         数字显示 代码:<#noparse>${price?string.number}</#noparse> 结果:${price?string} <br>
+         货币显示  代码:<#noparse>${price?string.currency}</#noparse> 结果:${price?string.currency}  <br>
+        百分比显示 代码:<#noparse>${price?string.percent}</#noparse> 结果:${price?string.percent}   <br>
+   date格式化string显示: <br>
+   代码部分(非空判断): <#noparse><#if map.birthday??>${map.birthday?string("yyyy-MM-dd HH:mm:ss")}&lt;/#if&gt;</#noparse><br>
+   运行结果: <#if map.birthday??>${map.birthday?string("yyyy-MM-dd HH:mm:ss")}</#if>; <br>
+   string设置成date: <br>
+         代码:<#noparse><#assign lastUpdated = "2009-01-07 15:05"?datetime("yyyy-MM-dd HH:mm") /></#noparse> 结果:<#assign lastUpdated = "2009-01-07 15:05"?datetime("yyyy-MM-dd HH:mm") />  
+	代码:<#noparse>${lastUpdated?string("yyyy-MM-dd HH:mm:ss zzzz")}</#noparse>  结果:${lastUpdated?string("yyyy-MM-dd HH:mm:ss zzzz")}; <br>
+	代码:<#noparse>${lastUpdated?string("EEE,MMM d,yy")}</#noparse>  结果:${lastUpdated?string("EEE,MMM d,yy")}<br>
+	代码:<#noparse>${lastUpdated?string("EEEE,MMMM dd,yyyy,hh:mm:ss a '('zzz')'")}</#noparse>  结果:${lastUpdated?string("EEEE,MMMM dd,yyyy,hh:mm:ss a '('zzz')'")}<br>  
+	代码:<#noparse>${lastUpdated?string.short}</#noparse> 结果:${lastUpdated?string.short}   <br>
+	代码:<#noparse>${lastUpdated?string.long}</#noparse>  结果:${lastUpdated?string.long} <br>
+	代码:<#noparse>${lastUpdated?string.full}</#noparse>  结果:${lastUpdated?string.full}   <br>
+	<p>boolean类型 代码:<#noparse><#assign foo=true />${foo?string("是foo","非foo")}</#noparse>  结果:<#assign foo=true />${foo?string("是foo","非foo")}
+    </p><br>
+    <p>数字格式化插值
+     数字格式化插值可采用<#noparse>#{expr;format}</#noparse>的形式来格式化数字，其中format可以是：
+     mX:小数部分最小X位<br>
+     MX:小数部分最大X位<br>
+     例如：<br>
+    代码:<#noparse><#assign x = 2.582 />  
+	<#assign y =4 /> <br> 
+	#{x;M2};  
+	#{y;M2};<br>  
+	#{x;m1};  
+	#{y;m1};<br>  
+	#{x;m1M2};  
+	#{y;m1M2};<br></#noparse>
+    结果:<br>
+    <#assign x = 2.582 />  
+	<#assign y =4 />  
+	#{x;M2};  
+	#{y;M2};<br>  
+	#{x;m1};  
+	#{y;m1};<br>  
+	#{x;m1M2};  
+	#{y;m1M2};<br>
+	</p>
+  if分支判断:<br>
+             代码: <#noparse><#if map.sex!='' && map.sex=='0'>女<#else>男&lt;/#if&gt;</#noparse> 结果:<#if map.sex!='' && map.sex=='0'>女<#else>男</#if><br>
+      判断对象空:<br>
+           代码:<#noparse><#if tt??>不为空<#else>为空&lt;/#if&gt;</#noparse> 结果:<#if tt??>不为空<#else>为空</#if><br>
+  <p>
+    FreeMarker对空值的处理非常严格,FreeMarker的变量必须有值,没有被赋值的变量就会抛出异常,因为FreeMarker未赋值的变量强制出错可以杜绝很多潜在的错误,如缺失潜在的变量命名,或者其他变量错误.这里所说的空值,实际上也包括那些并不存在的变量,对于一个Java的null值而言,我们认为这个变量是存在的,只是它的值为null,但对于FreeMarker模板而言,它无法理解null值,null值和不存在的变量完全相同.<br>
+	为了处理缺失变量,FreeMarker提供了两个运算符:<br>
+	!:指定缺失变量的默认值<br>
+	??:判断某个变量是否存在<br>
+	其中,!运算符的用法有如下两种:<br>
+	variable!或variable!defaultValue,第一种用法不给缺失的变量指定默认值,表明默认值是空字符串,长度为0的集合,或者长度为0的Map对象.<br>
+	使用!指定默认值时,并不要求默认值的类型和变量类型相同.使用??运算符非常简单,它总是返回一个布尔值,用法为:variable??,如果该变量存在,返回true,否则返回false<br>
+  示例：<br>
+	<#noparse>${tom!"tom is missed"}<br>
+	<#if !jack??>jack is missed&lt;/#if&gt;<br></#noparse>
+输出：<br>
+	${tom!"tom is missed"}<br>
+	<#if !jack??>jack is missed</#if><br>
+  </p>    
+  list遍历:<br>
+   <#if list?? &&list?size gt 0>
+     <#list list as item>  
+        ${item.sname}--<#if item.sex!='' && item.sex=='0'>女<#else>男</#if>--${item.age}<br>
+     </#list>
+   </#if>
+   集合连接运算符<br>
+  这里所说的集合运算符是将两个集合连接成一个新的集合,连接集合的运算符是+,看如下的例子:<br>
+ 代码如下:<#noparse>
+		<#list ["星期一","星期二","星期三"] + ["星期四","星期五","星期六","星期天"] as week>
+		${week}
+		&lt;/#list&gt;
+	 </#noparse> <br>
+代码运行结果:	 <#list ["星期一","星期二","星期三"] + ["星期四","星期五","星期六","星期天"] as week>
+			${week}
+			</#list>
+   =================================================================================================<br>
+    if else if else多分支:
+    <#assign age=23>
+	<#if (age>60)>老年人
+	<#elseif (age>40)>中年人
+	<#elseif (age>20)>青年人
+	<#else> 少年人
+	</#if>
+     <br>上面的代码中的逻辑表达式用括号括起来主要是因为里面有>符号,由于FreeMarker会将>符号当成标签的结束字符,可能导致程序出错,为了避免这种情况,我们应该在凡是出现这些符号的地方都使用括号	     
+  =================================================================================================<br>
+  switch , case , default , break指令:
+  	<#assign level=1>
+	<#switch level>
+		<#case 1>A级<#break>
+		<#case 2>B级<#break>
+		<#case 3>C级<#break>
+		<#default>未知级别
+	</#switch>
+	noparse指令指定FreeMarker不处理该指定里包含的内容,比如，页面显示freemarker语法部分，不被freemaker解析，当做正常html输出。
+	<br>
+	内建函数<br>
+<p>FreeMarker还提供了一些内建函数来转换输出,可以在任何变量后紧跟?,?后紧跟内建函数,就可以通过内建函数来轮换输出变量.下面是常用的内建的字符串函数:<br>
+html:对字符串进行HTML编码<br>
+cap_first:使字符串第一个字母大写<br>
+lower_case:将字符串转换成小写<br>
+upper_case:将字符串转换成大写<br>
+trim:去掉字符串前后的空白字符<br>
+
+下面是集合的常用内建函数
+size:获取序列中元素的个数
+
+下面是数字值的常用内建函数
+int:取得数字的整数部分,结果带符号
+</p>
+  </body>
+</html>

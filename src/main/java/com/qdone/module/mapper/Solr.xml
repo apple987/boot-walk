@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qdone.module.mapper.Solr">
+
+    <resultMap id="SolrMap" type="com.qdone.module.model.Solr">
+        <result property="id" column="ID"/>
+        <result property="price" column="PRICE"/>
+        <result property="title" column="TITLE"/>
+        <result property="name" column="NAME"/>
+        <result property="createtime" column="CREATETIME"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        ID,PRICE,TITLE,NAME,CREATETIME
+    </sql>
+
+    <sql id="dynamicWhere">
+   	   <trim  suffixOverrides="," prefix="WHERE" prefixOverrides="AND">
+          <if test="id!=null and id!=''">
+              AND ID = #{id}
+          </if>
+          <if test="price!=null and price!=''">
+             AND PRICE = #{price}
+          </if>
+          <if test="title!=null and title!=''">
+             AND TITLE LIKE concat('%',#{title},'%')
+          </if>
+          <if test="name!=null and name!=''">
+             AND NAME LIKE concat('%',#{name},'%')
+          </if>
+          <if test="createtime!=null">
+             AND CREATETIME = #{createtime}
+          </if>
+       </trim>
+    </sql>
+
+    <!-- select -->
+    <select id="select" parameterType="com.qdone.module.model.Solr"  resultMap="SolrMap">
+      SELECT <include refid="allColumns" />
+      FROM SOLR  <include refid="dynamicWhere" />  
+    </select>
+
+    <!-- view -->
+    <select id="view" parameterType="java.lang.String"  resultMap="SolrMap">
+      SELECT <include refid="allColumns" />
+      FROM SOLR WHERE id = #{id,jdbcType=VARCHAR} FOR UPDATE
+    </select>
+
+    <!-- queryBean -->
+    <select id="queryBean" parameterType="com.qdone.module.model.Solr"  resultMap="SolrMap">
+      SELECT <include refid="allColumns" />
+      FROM SOLR  <include refid="dynamicWhere" /> 
+    </select>
+
+    <!-- batchInsert -->
+    <select id="batchInsert" parameterType="java.util.List">
+      INSERT INTO SOLR (<include refid="allColumns" />) 
+          VALUES(
+          <foreach collection="list" item="item" index="index" separator=","> 
+            (
+                #{item.id,jdbcType=VARCHAR},#{item.price,jdbcType=INTEGER},#{item.title,jdbcType=VARCHAR},#{item.name,jdbcType=VARCHAR},#{item.createtime,jdbcType=TIMESTAMP}      
+            )      
+          </foreach>
+    </select>
+
+    <!-- insert -->
+    <!-- <insert id="insert" parameterType="com.qdone.module.model.Solr">
+      INSERT INTO SOLR (<include refid="allColumns" />) 
+      VALUES(
+        #{id,jdbcType=VARCHAR},#{price,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP}
+        )
+    </insert> -->
+    
+    <insert id="insert" parameterType="com.qdone.module.model.Solr">
+      INSERT INTO SOLR (ID,TITLE,NAME,CREATETIME) 
+      VALUES(
+        #{id,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- update -->
+    <update id="update" parameterType="com.qdone.module.model.Solr">
+      UPDATE  SOLR  
+         <set>    
+             PRICE = #{price,jdbcType=INTEGER},
+             TITLE = #{title,jdbcType=VARCHAR},
+             NAME = #{name,jdbcType=VARCHAR},
+             CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+         </set>
+		WHERE id = #{id,jdbcType=VARCHAR}
+    </update>
+
+    <!-- batchUpdate -->
+    <update id="batchUpdate" parameterType="java.util.Map">
+      UPDATE  SOLR  
+         <set>    
+             PRICE = #{price,jdbcType=INTEGER},
+             TITLE = #{title,jdbcType=VARCHAR},
+             NAME = #{name,jdbcType=VARCHAR},
+             CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+         </set>
+		WHERE id IN 
+      <foreach collection="pkList" index="index" item="item" open="(" separator="," close=")"> 
+        #{item}   
+      </foreach>
+    </update>
+
+    <!-- delete -->
+    <delete id="delete" parameterType="java.lang.String">
+      DELETE FROM SOLR WHERE id = #{id,jdbcType=VARCHAR}
+    </delete>
+
+    <!-- batchDelete -->
+    <delete id="batchDelete" parameterType="java.util.List">
+      DELETE FROM SOLR  WHERE id  IN  
+       <foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item.id,jdbcType=VARCHAR}
+       </foreach> 
+    </delete>
+
+</mapper>

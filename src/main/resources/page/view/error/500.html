@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>系统错误页</title>
+  <meta name="description" content="" />
+  <meta name="author" content="pc" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <meta name="screen-orientation"content="portrait">
+  <meta name="format-detection" content="telephone=no" />
+  <#include "/inc/common.html">
+</head>
+<body>
+<div class="error-content" style="padding: 50px;text-align:center;">
+	<h1>非常抱歉！系统发生错误</h1><br>
+	<font size="3">请把错误信息发送给我们的客服人员或研发人员，我们会尽快帮您解决</font><br><br>
+	<button id="back" onclick="$('.error-content').hide();window.parent.location.href='${request.contextPath}/';">返回主页</button>&nbsp;&nbsp;&nbsp;
+	<button onclick="layer.msg('正在玩命完善中...，请耐心等待！',{icon:5,time:5000});">信息反馈</button><br><br>
+	<p><a  href="#" onclick="$('#error-msg').toggle();" id="toggle-error" >查看错误详情</a></p>
+	<div id="error-msg" style="display:none;">
+		错误状态: ${result.status} <br>
+		错误信息: ${result.message}
+	</div>
+</div>
+</body>
+
+
+
+
+
+
+
+

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>学生管理</title>
+  <meta name="description" content="" />
+  <meta name="author" content="pc" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <meta name="screen-orientation"content="portrait">
+  <meta name="format-detection" content="telephone=no" />
+  <#include "/inc/common.html">
+</head>
+<body>
+<div class="row  page-component-element">
+	<div class="col-md-12  col-md-offset-0">
+		<table  id="studentDg" 
+				    data-toggle="table"  
+				    data-method="post" 
+				    data-content-type="application/json"
+				    data-url="${request.contextPath}/student/selectPage"
+				    data-toolbar="#studentTb"
+				    data-height="355"
+					data-show-header="true" 
+					data-cache="false"
+					data-click-to-select="true"  
+					data-single-select="false" 
+					data-striped="true"
+					data-search="false" 
+					data-pagination="true"
+					data-side-pagination="server"
+					data-query-params-type="''"
+					data-page-size="1"
+					data-page-number="1"
+					data-page-list="[2,5,10,20,50,100,500,1000]"
+					data-query-params="studentQueryParams"
+					data-pagination-loop="false"
+					data-classes="table table-hover table-condensed"
+			        data-sort-stable="true"
+			        data-show-footer="false"
+			        data-resizable="true"
+			        data-reorderable-columns="true"
+					data-show-toggle="true"
+			        data-show-columns="true"
+					data-show-multi-sort="true"
+					data-show-pagination-switch="true"
+					data-show-export="true"
+					data-export-types="['excel']"
+					data-export-options='{
+				         "fileName": "student列表", 
+				         "worksheetName": "sheet"
+				    }'
+			>
+			<thead>
+				<tr>
+                      <th data-field="state"  data-align="center"  data-checkbox="true"></th>
+                      <th data-field="index" data-title="序号" data-align="center"  data-formatter="getRowIndex"></th>
+                      <th data-field='id' data-sortable='true' data-align='center'  data-title='主键'></th>
+                      <th data-field='sname' data-sortable='true' data-align='center'  data-title='姓名' ></th>
+                      <th data-field='sex' data-sortable='true' data-align='center'  data-title='性别' data-formatter="sexFormatter"></th>
+                      <th data-field='age' data-sortable='true' data-align='center'  data-title='年龄'></th>
+                      <th data-field='birthday' data-sortable='true' data-align='center'  data-title='生日' data-formatter="birthdayFormatter"></th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>
+
+		    
+		
+        <div id="studentTb"  >
+			<div style="margin-bottom: 5px">
+			    <input type="button" value="添加" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="addStudent()" /> 
+				<input type="button" value="修改" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="editStudent()" /> 
+				<input type="button" value="删除" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="deleteStudent()" /> 
+				<input type="button" value="查询" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="findStudent()" /> 
+			    <input type="button" value="清空" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="clearStudent()" />
+			    <input type="button" id="btnVitalImport" value="导入" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" /> 
+			    <input type="button"  value="发邮件" style="width: 80px; height: 30px; vertical-align: top; line-height: 10px;" class="btn-primary" onclick="sendEmail()" /> 
+			    <a href="${request.contextPath}/student/freemarker" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">freemarker</a>
+			    <a href="${request.contextPath}/toZxingQrcode" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">二维码</a>
+			    <a href="${request.contextPath}/druid/" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">druib监控</a>
+			    <a href="${request.contextPath}/monitoring" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">JavaMelody监控</a>
+			    <a href="${request.contextPath}/swagger-ui.html" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">swagger</a>
+			    <a href="${request.contextPath}/staff/init" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">职员管理</a>
+			    <a href="${request.contextPath}/student/exportCsv" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">CSV</a>
+			    <a href="${request.contextPath}/student/exportPoiExcel" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">POI</a>
+			</div>
+			<div>
+			   <form id="studentQueryForm" method="post" action="">
+                           <table align="left">
+                              <tr>
+                                      <td>姓名:<input id='sname' name='sname'  style="width: 80px;height:25px;"/></td>
+                                      <td>
+                                                                                                                 性别:<select id='sex' name='sex' style="width:60px;" class="publicSelect2" >
+                                            <option value="">全部</option>
+						              	    <option value="1">男</option>
+						             	    <option value="0">女</option>
+						                 </select>
+                                      </td>
+                                      <td>年龄:<input id='age' name='age'  style="width: 80px;height:25px;"/></td>
+                                      <td>开始时间:<input id='startDate' name='startDate' readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="width: 80px;height:25px;"/></td>
+                                      <td>结束时间:<input id='endDate' name='endDate' readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="width: 80px;height:25px;"/></td>
+                             </tr>
+                           </table>         
+			   </form>
+			</div>
+		</div>
+		<!-- 下载功能区 -->
+		<button id="back" onclick="$('div.download').toggle();">下载功能</button>&nbsp;&nbsp;&nbsp;<br>
+		<div class="download">
+			 <p>
+			  <#if fileNames??>
+					     <#list fileNames as item>  
+					        <a href="${request.contextPath}/student/downLoad?fileId=${item}" class="btn-primary" target="_blank"  style="width: 80px; height: 100px;">下载${item}</a>
+					     </#list>
+			  </#if>
+			</p>
+		</div>
+		<!-- 导入  开始 -->
+		<div class="modal fade" id="editVitaldddDvdModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog " style="width:500px;height:600px;" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" id="closeVitalDvdPeople" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myDvdVitalPeopleModalLabel">导入文本信息</h4>
+					</div>
+					<div class="modal-body" id="dddconDvd">
+						<form id="upForm" name="upForm" method="post" action=""
+							enctype="multipart/form-data">
+							<table border="0" align="center" style="height:200px;">
+								<tr>
+									<td><font color="red">*</font>上传文件：</td>
+									<td>
+									  <input id="vitalPeople" name="vitalPeople" multiple="true" type="file" class="required" accept="text/plain" /> 
+									</td>
+								</tr>
+								<tr>
+									<td><font color="red">*</font>测试名称：</td>
+									<td> 
+										<input type="text" id="vitalRuleName" name="ruleName" vaule="" readonly/>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-left:75px;">
+									 <input type="button" value="确定"  style="width:80px;height:30px;vertical-align: bottom; line-height:10px;" class="btn-primary"
+										onclick="checkFilePrfeix()" />&nbsp;&nbsp;</td>
+									<td> <input type="button" id="subButton" style="width:80px;height:30px;vertical-align: bottom; line-height:10px;" class="btn-primary" value="重置"></td>
+								</tr>
+							</table>
+						</form>
+						<div id="vitalPeopleRuleError" align="center"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 导入  结束 -->	
+				
+		<script type="text/javascript">
+		$(function(){
+			$(".publicSelect2").select2();
+		    Waves.init();
+		    Waves.attach('.waves');
+		})
+		//附带查询参数
+	    function studentQueryParams(params){
+			params.sname=$('#sname').val();
+			params.sex=$('#sex').val();
+			params.age=$('#age').val();
+			params.startDate=$('#startDate').val();
+			params.endDate=$('#endDate').val();
+			return params;
+	    }
+	    //显示行号
+		function getRowIndex(value, row, index) {  
+		   var page=$("#studentDg").bootstrapTable("getOptions");
+		   return page.pageSize*(page.pageNumber-1)+index+1;
+		}  
+	    //格式化生日
+	    function birthdayFormatter(value,row,index) {
+	    	if(value==null||value.length==0||value==undefined){
+	    		return "";
+	    	}else{
+	    	  return new Date(value).format("yyyy-MM-dd");
+	    	}
+	    }
+	    //格式化性别
+	    function sexFormatter(value,row,index) {
+	    	if(value==null||value.length==0||value==undefined){
+	    		return "";
+	    	}else if(value=="1"){
+	    	  return "男";
+	    	}else{
+	    		return "女";
+	    	}
+	    } 
+	    //添加
+	    function addStudent(){
+	         var index=layer.open({
+		    	      id:"insertStudent",//唯一Id    
+		    		  type: 2,//iframe模式
+		    		  area: ['850px', '500px'],
+		    		  title: '添加Student',//标题
+		    		  shade: 0.6 ,//遮罩透明度
+		    		  maxmin: true, //允许全屏最小化
+		    		  anim: 1, //0-6的动画形式，-1不开启
+		    		  content: "${request.contextPath}/student/preInsert",//内容
+	    	});
+	        //window.location.href="${request.contextPath}/student/preInsert";
+	    }
+	    //修改 
+	    function editStudent(){
+	        var row = $('#studentDg').bootstrapTable('getSelections');
+		    if (row.length==1&&row[0].id!=null&&row[0].id!=""){//主键不为空
+			    	var index=layer.open({
+					    	      id:"updateStudent",//唯一Id    
+					    		  type: 2,//iframe模式
+					    		  area: ['850px', '500px'],
+					    		  title: '修改Student',//标题
+					    		  shade: 0.6 ,//遮罩透明度
+					    		  maxmin: true, //允许全屏最小化
+					    		  anim: 1, //0-6的动画形式，-1不开启
+					    		  content: "${request.contextPath}/student/preUpdate?id="+row[0].id,//内容
+			    	});
+				//window.location.href="${request.contextPath}/student/preUpdate?id="+row[0].id;
+    		}else{
+    			layer.open({
+				  title: '提示信息'
+				  ,content: '请选择一行记录'
+				});  
+    		}
+	    }
+	    //删除
+        function deleteStudent(){
+	      var row = $('#studentDg').bootstrapTable('getSelections');
+		  if (row.length>0){
+			    layer.confirm('你确定要删除选中的记录？', {icon: 3, title:'提示'}, function(index){
+			                $.ajax({
+					    		url:'${request.contextPath}/student/delete',
+	                            contentType:"application/json",
+			    	    		dataType : "json",
+			    	    		type : "post",
+	                            data : JSON.stringify(row), 
+					    		success:function(json,status){
+					    		    layer.msg('删除成功', {
+					    				icon:1, 
+									    time: 1000,
+									    end: function(index, layero){ 
+									    	 findStudent();
+										}
+									});
+					    		},
+					    		error:function(json,status){
+					    		    layer.msg('系统异常,请稍后重试或联系技术人员', {
+					    				icon:5, 
+									    time: 1000,
+									    end: function(index, layero){ 
+									    	findStudent();
+										}
+									}); 
+					    		}
+					    	});
+			     layer.close(index);
+			  });
+	        }else{
+	        	   layer.open({
+					  title: '提示信息'
+					  ,content: '请选择需要删除的行!',
+					  btnAlign: 'c'
+					}); 
+	        }
+	    }
+	    //查询
+		function findStudent(){
+			$("#studentDg").bootstrapTable("refresh",{
+					"silent":true,
+					"resetOffset":false,
+					"url":"${request.contextPath}/student/selectPage",
+					query:$('#studentQueryForm').serializeObject()
+			}); 
+		} 
+	    //清空查询条件
+	   function clearStudent(){
+	       $(':input','#studentQueryForm') 
+		    .not(':button, :submit, :reset, :hidden') 
+		    .val('') 
+		    .removeAttr('checked') 
+		    .removeAttr('selected'); 
+	   }
+	   $("#btnVitalImport").click(function(){
+			 $("#vitalRuleName").val("测试");
+			 var $editModal = $("#editVitaldddDvdModal");
+			 $editModal.modal("show");
+		})
+		function checkFilePrfeix() {
+			var vitalTxt=$("#vitalPeople").val();
+			if(vitalTxt==""){
+				alert("请选择需要导入的人口库文本文件!");
+			}else{
+				var afPfx=vitalTxt.substring(vitalTxt.lastIndexOf(".")+1);
+				if(afPfx=='txt'){
+					$.ajaxFileUpload({
+			            url: '${request.contextPath}/student/fileupload',
+			            type: 'post',
+			            secureuri: false, //一般设置为false
+			            fileElementId: 'vitalPeople', // 上传文件的id、name属性名
+			            dataType: 'text', //返回值类型，一般设置为json、application/json
+			            data:{"ruleName":$("#vitalRuleName").val(),"sname":"王麻子","sex":"1"},
+			            success: function(data, status){ 
+			            	$("#vitalPeopleRuleError").hide();
+			            	$("#vitalPeopleRuleError").html(data);
+			            	if($("#vitalPeopleRuleError").children().hasClass("error-content")){//出现异常页面
+			            		$("#vitalPeopleRuleError").show();
+			            		//$("#vitalPeopleRuleError").empty();
+			            		setTimeout("$('#closeVitalDvdPeople').click();window.location.reload();", 5000); 
+			            	}else{//成功上传
+			            		debugger;
+				            	var jsonData=JSON.parse($("#vitalPeopleRuleError").text().trim());
+				            	$("#vitalPeopleRuleError").empty();
+				            	$("#vitalPeopleRuleError").html("执行状态:<font color='red'>"+jsonData.status+"</font>&nbsp;&nbsp;&nbsp;&nbsp;执行结果:<font color='red'>"+jsonData.msg+"</font>&nbsp;&nbsp;&nbsp;&nbsp;总计:<font color='red'>"+jsonData.total+"</font>条记录");
+				            	$("#vitalPeopleRuleError").show();
+				            	setTimeout("$('#closeVitalDvdPeople').click();window.location.reload();", 5000); 
+			            	}
+			            } ,
+			            error: function(data, status, e){ 
+			                console.log(e);
+			            } 
+			        });
+				}else{
+					alert("导入的文件必须为txt，文本文件!");
+				}
+			}
+		}
+	   /*简单boot发邮件*/
+	   function sendEmail(){
+			$.ajax({
+				url : '${request.contextPath}/student/sendEMail',
+				type : "post",
+				contentType:"application/json",
+				dataType : "json",
+				success : function(json,status) {
+					if(json.status==200){
+						alert("邮件发送成功!");
+					}else{
+						alert("邮件发送出错!");
+					}
+				}
+			});
+		}
+	</script>
+ </body>
+</html>

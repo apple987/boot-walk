@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"     
+"http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>  
+   <!-- 配置是，尤其注意以下几个属性的配置有严格的顺序，请注意 -->
+   <!-- mybatis配置参数 -->
+	<settings>
+		<setting name="cacheEnabled" value="true"/>  
+		<setting name="lazyLoadingEnabled" value="true"/>  
+		<setting name="multipleResultSetsEnabled" value="true"/>  
+		<setting name="useColumnLabel" value="true"/>  
+		<setting name="useGeneratedKeys" value="true"/>  
+		<setting name="defaultExecutorType" value="SIMPLE"/>  
+		<setting name="defaultStatementTimeout" value="25000"/>
+		<!-- 是否支持驼峰类型,数据库字段跟实体类自动驼峰赋值 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />   
+		<!-- 打印日志 -->
+		<setting name="logImpl" value="LOG4J"/> 
+		<!-- 返回为map时，如果字段值为null，结果集合会显示字段值为null结果 -->
+        <setting name="callSettersOnNulls" value="true"/>
+	</settings>
+    <!-- 实体类,简称 -设置别名 -->  
+    <!-- <typeAliases>  
+        <typeAlias alias="User" type="com.blog.entity.User" />  
+        <typeAlias alias="Navigation" type="com.blog.entity.Navigation" />  
+        <typeAlias alias="Article" type="com.blog.entity.Article" />  
+    </typeAliases>  --> 
+    <!-- 实体接口映射资源 -->  
+    <!-- <plugins>
+        <plugin interceptor="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+             <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.MySQLDialect"/>
+        </plugin>
+    </plugins> -->
+     <!-- 配置 PageHelper插件方式来分页-->
+    <plugins>
+		<plugin interceptor="com.github.pagehelper.PageHelper">
+			<property name="dialect" value="mysql" />
+			<property name="offsetAsPageNum" value="true" />
+			<property name="rowBoundsWithCount" value="true" />
+			<property name="pageSizeZero" value="true" />
+			<property name="reasonable" value="true" />
+			<property name="params"
+				value="pageNum=start;pageSize=limit;pageSizeZero=zero;reasonable=heli;count=contsql" />
+		</plugin>
+	</plugins>
+    <!-- 说明：如果xxMapper.xml配置文件放在和xxMapper.java统一目录下，mappers也可以省略，因为org.mybatis.spring.mapper.MapperFactoryBean默认会去查找与xxMapper.java相同目录和名称的xxMapper.xml -->  
+    <!-- <mappers>  
+        <mapper resource="com/blog/entity/mapping/UserMapper.xml" />  
+        <mapper resource="com/blog/entity/mapping/NavigationMapper.xml" />  
+        <mapper resource="com/blog/entity/mapping/ArticleMapper.xml" />  
+    </mappers> -->  
+</configuration>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdone.module.mapper.Student">
+
+    <resultMap id="StudentMap" type="com.qdone.module.model.Student">
+        <result property="id" column="ID"/>
+        <result property="sname" column="SNAME"/>
+        <result property="sex" column="SEX"/>
+        <result property="age" column="AGE"/>
+        <result property="birthday" column="BIRTHDAY"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        ID,SNAME,SEX,AGE,BIRTHDAY
+    </sql>
+
+    <sql id="dynamicWhere">
+   	   <trim  suffixOverrides="," prefix="WHERE" prefixOverrides="AND">
+          <if test="id!=null and id!=''">
+              AND ID = #{id}
+          </if>
+          <if test="sname!=null and sname!=''">
+              AND SNAME  LIKE concat('%',#{sname},'%')
+          </if>
+          <if test="sex!=null and sex!=''">
+             AND SEX = #{sex}
+          </if>
+          <if test="age!=null and age!=''">
+             AND AGE = #{age}
+          </if>
+          <if test="birthday!=null">
+             AND BIRTHDAY = #{birthday}
+          </if>
+          <if test="startDate!=null">
+             and birthday >= #{startDate}
+          </if>
+           <if test="endDate!=null">
+             <![CDATA[and birthday <= #{endDate}]]>
+          </if>
+       </trim>
+    </sql>
+
+    <!-- select -->
+    <select id="select" parameterType="com.qdone.module.model.Student"  resultMap="StudentMap">
+      SELECT <include refid="allColumns" />
+      FROM STUDENT  <include refid="dynamicWhere" />  
+    </select>
+
+    <!-- view -->
+    <select id="view" parameterType="java.lang.Integer"  resultMap="StudentMap">
+      SELECT <include refid="allColumns" />
+      FROM STUDENT WHERE id = #{id,jdbcType=INTEGER}
+    </select>
+      <!-- <select id="view" parameterType="java.lang.Integer"  resultMap="StudentMap">
+      set autocommit=0;
+      SELECT <include refid="allColumns" />
+      FROM STUDENT WHERE id = #{id,jdbcType=INTEGER} FOR UPDATE;
+    </select> -->
+
+    <!-- queryBean -->
+    <select id="queryBean" parameterType="com.qdone.module.model.Student"  resultMap="StudentMap">
+      SELECT <include refid="allColumns" />
+      FROM STUDENT  <include refid="dynamicWhere" /> 
+    </select>
+
+    <!-- batchInsert -->
+    <select id="batchInsert" parameterType="java.util.List">
+      INSERT INTO STUDENT (<include refid="allColumns" />) 
+          VALUES(
+          <foreach collection="list" item="item" index="index" separator=","> 
+            (
+                #{item.id,jdbcType=INTEGER},#{item.sname,jdbcType=VARCHAR},#{item.sex,jdbcType=VARCHAR},#{item.age,jdbcType=INTEGER},#{item.birthday,jdbcType=TIMESTAMP}      
+            )      
+          </foreach>
+    </select>
+
+    <!-- insert -->
+    <insert id="insert" parameterType="com.qdone.module.model.Student">
+    <!--   <selectKey order="BEFORE" keyProperty="id" resultType="int">  
+            select LAST_INSERT_ID()  
+      </selectKey>   -->
+      INSERT INTO STUDENT (<include refid="allColumns" />) 
+      VALUES(
+        #{id,jdbcType=INTEGER},#{sname,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{age,jdbcType=INTEGER},#{birthday,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!-- update -->
+    <update id="update" parameterType="com.qdone.module.model.Student">
+      UPDATE  STUDENT  
+         <set>    
+             <if test="sname!=null">SNAME = #{sname,jdbcType=VARCHAR},</if>
+             SEX = #{sex,jdbcType=VARCHAR},
+             AGE = #{age,jdbcType=INTEGER},
+             BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}
+         </set>
+		WHERE id = #{id,jdbcType=INTEGER};
+		<!-- DELETE FROM STUDENT WHERE id = #{id,jdbcType=INTEGER}; -->
+    </update>
+
+    <!-- batchUpdate -->
+    <update id="batchUpdate" parameterType="java.util.Map">
+      UPDATE  STUDENT  
+         <set>    
+             <if test="sname!=null">SNAME = #{sname,jdbcType=VARCHAR},</if>
+             SEX = #{sex,jdbcType=VARCHAR},
+             AGE = #{age,jdbcType=INTEGER},
+             BIRTHDAY = #{birthday,jdbcType=TIMESTAMP}
+         </set>
+		WHERE id IN 
+      <foreach collection="pkList" index="index" item="item" open="(" separator="," close=")"> 
+        #{item}   
+      </foreach>
+    </update>
+
+    <!-- delete -->
+    <delete id="delete" parameterType="java.lang.Integer">
+      DELETE FROM STUDENT WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <!-- batchDelete -->
+    <delete id="batchDelete" parameterType="java.util.List">
+      DELETE FROM STUDENT  WHERE id  IN  
+       <foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item.id,jdbcType=INTEGER}
+       </foreach> 
+    </delete>
+
+</mapper>

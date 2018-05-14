@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>添加staff</title>
+  <meta name="description" content="" />
+  <meta name="author" content="pc" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+  <meta name="screen-orientation"content="portrait">
+  <meta name="format-detection" content="telephone=no" />
+  <#include "/inc/common.html">
+</head>
+<body>
+  <div class="container">
+     <div style="margin-bottom: 10px">
+	    <input type="button" value="返回" style="width: 80px; height: 30px; vertical-align: bottom; line-height: 10px;" class="btn-primary" onclick="staffBack()" /> 
+		<input type="button" value="保存" style="width: 80px; height: 30px; vertical-align: bottom; line-height: 10px;" class="btn-primary" onclick="staffSave()" /> 
+		<input type="button" value="取消" style="width: 80px; height: 30px; vertical-align: bottom; line-height: 10px;" class="btn-primary" onclick="staffCancle()" /> 
+	 </div>
+	 <div>
+      <form id="staffInsertFm" name="staffInsertFm"  method="post" action="">
+          <table border="0" cellpadding="0" id="staffInsertTable" cellspacing="0"
+			 class="formlist" style="width: 100%; table-layout: fixed;">
+                      <tr>
+                            <th>职员姓名</th>
+                            <td><input id='sname' name='sname' class="{required:true,maxlength:30}"/></td>
+                            <th>职员性别</th>
+                            <td><select id='sex' name='sex' style="width: 174px;"
+								class="publicSelect2" >
+									<option value="1">男</option>
+									<option value="0">女</option>
+							</select></td>
+                      </tr>
+                      <tr>
+                            <th>职员年龄</th>
+                            <td><input id='age' type="number" name='age' min="1"  max="100" style="width:174px;height:22px;"/></td>
+                            <th>创建职员时间</th>
+                            <td><input id='createDate'  name='createDate' readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                      </tr>
+                      <tr>
+                            <th>职员创建者</th>
+                            <td><input id='createby' name='createby' /></td>
+                            <th>更新职员时间</th>
+                            <td><input id='updateDate'  name='updateDate' readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"/></td>
+                      </tr>
+                      <tr>
+                            <th>职员信息更新人</th>
+                            <td><input id='updateby' name='updateby' /></td>
+                            <th>police</th>
+                            <td><input id='policeFile' name='policeFile'  type="file"  class="required" accept="image/jpeg"/></td>
+                      </tr>
+          </table>
+       </form>
+     </div> 
+ </div> 
+     <script type="text/javascript">
+      $(function(){
+			$(".publicSelect2").select2();
+		    Waves.init();
+		    Waves.attach('.waves');
+		})
+       function staffSave(){//保存
+          if($('#staffInsertFm').valid()){//验证通过
+        	  $.ajaxFileUpload({
+        		    url: $.common.basePath+'/staff/insert',
+		            type: 'post',
+		            secureuri: false, //一般设置为false
+		            fileElementId: 'policeFile', // 上传文件的id、name属性名
+		            dataType: 'json', //返回值类型，一般设置为json、application/json
+		            data:$('#staffInsertFm').serializeObject(),
+		            success: function(data, status){ 
+		            	if(data==true){
+							layer.msg('添加成功', {
+				    				icon:1, 
+								    time: 500,
+								    end: function(index, layero){ 
+								         parent.layer.close(parent.layer.getFrameIndex(window.name));  // 关闭layer
+								    	 window.parent.location.reload(); //刷新父页面
+										 //window.location.href=$.common.basePath+'/staff/init';
+									}
+							}); 
+						}else{
+						    layer.msg('添加失败', {
+			    				icon:5, 
+							    time: 500,
+							    end: function(index, layero){ 
+							         parent.layer.close(parent.layer.getFrameIndex(window.name));  // 关闭layer
+								     window.parent.location.reload(); //刷新父页面
+									 //window.location.href=$.common.basePath+'/staff/init';
+								}
+						    });
+						}
+		            } ,
+		        	error: function(json, status) {
+					    layer.msg('系统异常,请稍后重试或联系技术人员', {
+		    				icon:5, 
+						    time: 1500,
+						    end: function(index, layero){ 
+								 parent.layer.close(parent.layer.getFrameIndex(window.name));  // 关闭layer
+								 window.parent.location.reload(); //刷新父页面
+								 //window.location.href=$.common.basePath+'/staff/init';
+							}
+					    });
+					}
+        	  });
+		  }
+       }
+       function staffCancle(){//取消
+          $(':input','#staffInsertFm') 
+			    .not(':button, :submit, :reset, :hidden') 
+			    .val('') 
+			    .removeAttr('checked') 
+			    .removeAttr('selected');
+       }
+       function staffBack(){//返回
+          parent.layer.close(parent.layer.getFrameIndex(window.name));  // 关闭layer
+		  window.parent.location.reload(); //刷新父页面
+          //window.location.href=$.common.basePath+'/staff/init';
+       }
+     </script>
+  </body>
+</html>

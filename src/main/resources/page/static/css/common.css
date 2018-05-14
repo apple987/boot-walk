@@ -1,0 +1,36 @@
+.no-flow-x {
+	overflow: hidden !important;
+}
+/*bootstrap-table表格样式，解决标题跟内容对不齐问题*/
+.table {
+	table-layout: fixed;
+}
+
+.formlist {
+	border: solid #d1e6f9;
+	border-width: 1px 1px 0 1px;
+	border-collapse: collapse;
+}
+
+.formlist th {
+	color: #2c88c0;
+	text-align: right;
+	font-weight: normal;
+}
+
+.formlist td, .formlist th {
+	line-height: 16px;
+	padding: 4px 6px;
+	border-bottom: 1px solid #d1e6f9;
+	border-collapse: collapse;
+}
+/*表格form验证结果展示*/
+label.error {
+	background: url("../images/error.png") no-repeat 0px 0px;
+	color: Red;
+	padding-left: 20px;
+}
+
+label.success {
+	background: url("../images/checked.gif") no-repeat 0px 0px;
+}

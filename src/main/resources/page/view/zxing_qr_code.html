@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>谷歌二维码</title>
+<meta name="description" content="" />
+<meta name="author" content="pc" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<meta name="screen-orientation" content="portrait">
+<meta name="format-detection" content="telephone=no" />
+<#include "/inc/common.html">
+</head>
+<body>
+<br>
+<div id="printArea" align="center">
+	<div id="output1"  align="center">
+	  <img style="width:300px;height:300px;padding-left:50px;" src="${request.contextPath}/getZxingQrcode" />  
+	</div>
+</div>
+<br>
+<div  align="center">
+  <input id="btn" type="button" value="打印二维码"/>
+</div>
+<script>
+ $(function(){
+    var st="${qrdata}";
+	st=st.replaceAll("\\|","\n"); 
+	var str=utf16to8(st);
+	//jQuery('#output').qrcode(str);
+	 /* $("#output").qrcode({ 
+	    render: "table", //table方式 
+	    width: 400, //宽度 
+	    height:400, //高度 
+	    text: str//任意内容 
+	}); */  
+	
+ }) 
+ $("#btn").click(function(){
+	 $("#printArea").printArea();
+ })
+ 
+/**
+ * JS的String替换replaceAll方法
+ */
+String.prototype.replaceAll = function(s1,s2) { 
+    return this.replace(new RegExp(s1,"gm"),s2); 
+} 
+/**
+ * JS转码UTF-8
+ */
+ function utf16to8(str) {  
+	    var out, i, len, c;  
+	    out = "";  
+	    len = str.length;  
+	    for(i = 0; i < len; i++) {  
+	    c = str.charCodeAt(i);  
+	    if ((c >= 0x0001) && (c <= 0x007F)) {  
+	        out += str.charAt(i);  
+	    } else if (c > 0x07FF) {  
+	        out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
+	        out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));  
+	        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+	    } else {  
+	        out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));  
+	        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+	    }  
+	    }  
+	    return out;  
+}
+</script>
+</body>
+</html>

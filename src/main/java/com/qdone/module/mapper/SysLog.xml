@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qdone.common.util.log.mapper.SysLog">
+
+    <resultMap id="SysLogMap" type="com.qdone.common.util.log.SysLog">
+        <result property="id" column="ID"/>
+        <result property="title" column="TITLE"/>
+        <result property="type" column="TYPE"/>
+        <result property="userId" column="USER_ID"/>
+        <result property="requestUri" column="REQUEST_URI"/>
+        <result property="className" column="CLASS_NAME"/>
+        <result property="methodName" column="METHOD_NAME"/>
+        <result property="functionName" column="FUNCTION_NAME"/>
+        <result property="userAgent" column="USER_AGENT"/>
+        <result property="remoteIp" column="REMOTE_IP"/>
+        <result property="requestMethod" column="REQUEST_METHOD"/>
+        <result property="requestParams" column="REQUEST_PARAMS"/>
+        <result property="requestMac" column="REQUEST_MAC"/>
+        <result property="exception" column="EXCEPTION"/>
+        <result property="actionThread" column="ACTION_THREAD"/>
+        <result property="actionStartTime" column="ACTION_START_TIME"/>
+        <result property="actionEndTime" column="ACTION_END_TIME"/>
+        <result property="actionTime" column="ACTION_TIME"/>
+        <result property="createDate" column="CREATE_DATE"/>
+        <result property="database" column="dbName"/>
+    </resultMap>
+
+    <sql id="allColumns">
+        ID,TITLE,TYPE,USER_ID,REQUEST_URI,CLASS_NAME,
+        METHOD_NAME,FUNCTION_NAME,USER_AGENT,REMOTE_IP,REQUEST_METHOD,REQUEST_PARAMS,
+        REQUEST_MAC,EXCEPTION,ACTION_THREAD,ACTION_START_TIME,ACTION_END_TIME,ACTION_TIME,
+        CREATE_DATE,DBNAME
+    </sql>
+
+    <sql id="dynamicWhere">
+   	   <trim  suffixOverrides="," prefix="WHERE" prefixOverrides="AND">
+          <if test="id!=null and id!=''">
+              AND ID = #{id}
+          </if>
+          <if test="title!=null and title!=''">
+             AND TITLE LIKE concat('%',#{title},'%')
+          </if>
+          <if test="type!=null and type!=''">
+             AND TYPE LIKE concat('%',#{type},'%')
+          </if>
+          <if test="userId!=null and userId!=''">
+             AND USER_ID LIKE concat('%',#{userId},'%')
+          </if>
+          <if test="requestUri!=null and requestUri!=''">
+             AND REQUEST_URI LIKE concat('%',#{requestUri},'%')
+          </if>
+          <if test="className!=null and className!=''">
+             AND CLASS_NAME LIKE concat('%',#{className},'%')
+          </if>
+          <if test="methodName!=null and methodName!=''">
+             AND METHOD_NAME LIKE concat('%',#{methodName},'%')
+          </if>
+          <if test="functionName!=null and functionName!=''">
+             AND FUNCTION_NAME LIKE concat('%',#{functionName},'%')
+          </if>
+          <if test="userAgent!=null and userAgent!=''">
+             AND USER_AGENT LIKE concat('%',#{userAgent},'%')
+          </if>
+          <if test="remoteIp!=null and remoteIp!=''">
+             AND REMOTE_IP LIKE concat('%',#{remoteIp},'%')
+          </if>
+          <if test="requestMethod!=null and requestMethod!=''">
+             AND REQUEST_METHOD LIKE concat('%',#{requestMethod},'%')
+          </if>
+          <if test="requestParams!=null and requestParams!=''">
+             AND REQUEST_PARAMS LIKE concat('%',#{requestParams},'%')
+          </if>
+          <if test="requestMac!=null and requestMac!=''">
+             AND REQUEST_MAC LIKE concat('%',#{requestMac},'%')
+          </if>
+          <if test="exception!=null and exception!=''">
+             AND EXCEPTION LIKE concat('%',#{exception},'%')
+          </if>
+          <if test="actionThread!=null and actionThread!=''">
+             AND ACTION_THREAD LIKE concat('%',#{actionThread},'%')
+          </if>
+          <if test="actionStartTime!=null">
+             AND ACTION_START_TIME = #{actionStartTime}
+          </if>
+          <if test="actionEndTime!=null">
+             AND ACTION_END_TIME = #{actionEndTime}
+          </if>
+          <if test="actionTime!=null and actionTime!=''">
+             AND ACTION_TIME = #{actionTime}
+          </if>
+          <if test="createDate!=null">
+             AND CREATE_DATE = #{createDate}
+          </if>
+          <if test="database!=null and database!=''">
+             AND DBNAME LIKE concat('%',#{database},'%')
+          </if>
+       </trim>
+    </sql>
+
+    <!-- select -->
+    <select id="select" parameterType="com.qdone.common.util.log.SysLog"  resultMap="SysLogMap">
+      SELECT <include refid="allColumns" />
+      FROM SYS_LOG  <include refid="dynamicWhere" />  
+    </select>
+
+    <!-- view -->
+    <select id="view" parameterType="java.lang.Integer"  resultMap="SysLogMap">
+      SELECT <include refid="allColumns" />
+      FROM SYS_LOG WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <!-- queryBean -->
+    <select id="queryBean" parameterType="com.qdone.common.util.log.SysLog"  resultMap="SysLogMap">
+      SELECT <include refid="allColumns" />
+      FROM SYS_LOG  <include refid="dynamicWhere" /> 
+    </select>
+
+    <!-- batchInsert -->
+    <select id="batchInsert" parameterType="java.util.List">
+      INSERT INTO SYS_LOG (<include refid="allColumns" />) 
+          VALUES(
+          <foreach collection="list" item="item" index="index" separator=","> 
+            (
+                #{item.id,jdbcType=BIGINT},#{item.title,jdbcType=VARCHAR},#{item.type,jdbcType=CHAR},#{item.userId,jdbcType=VARCHAR},#{item.requestUri,jdbcType=VARCHAR},#{item.className,jdbcType=VARCHAR},
+        #{item.methodName,jdbcType=VARCHAR},#{item.functionName,jdbcType=VARCHAR},#{item.userAgent,jdbcType=VARCHAR},#{item.remoteIp,jdbcType=VARCHAR},#{item.requestMethod,jdbcType=VARCHAR},#{item.requestParams,jdbcType=LONGVARCHAR},
+        #{item.requestMac,jdbcType=VARCHAR},#{item.exception,jdbcType=LONGVARCHAR},#{item.actionThread,jdbcType=VARCHAR},#{item.actionStartTime,jdbcType=TIMESTAMP},#{item.actionEndTime,jdbcType=TIMESTAMP},#{item.actionTime,jdbcType=BIGINT},
+        #{item.createDate,jdbcType=TIMESTAMP},#{item.database,jdbcType=VARCHAR}      
+            )      
+          </foreach>
+    </select>
+
+    <!-- insert -->
+    <insert id="insert" parameterType="com.qdone.common.util.log.SysLog">
+      INSERT INTO SYS_LOG (<include refid="allColumns" />) 
+      VALUES(
+        #{id,jdbcType=BIGINT},#{title,jdbcType=VARCHAR},#{type,jdbcType=CHAR},#{userId,jdbcType=VARCHAR},#{requestUri,jdbcType=VARCHAR},#{className,jdbcType=VARCHAR},
+        #{methodName,jdbcType=VARCHAR},#{functionName,jdbcType=VARCHAR},#{userAgent,jdbcType=VARCHAR},#{remoteIp,jdbcType=VARCHAR},#{requestMethod,jdbcType=VARCHAR},#{requestParams,jdbcType=LONGVARCHAR},
+        #{requestMac,jdbcType=VARCHAR},#{exception,jdbcType=LONGVARCHAR},#{actionThread,jdbcType=VARCHAR},#{actionStartTime,jdbcType=TIMESTAMP},#{actionEndTime,jdbcType=TIMESTAMP},#{actionTime,jdbcType=BIGINT},
+        #{createDate,jdbcType=TIMESTAMP},#{database,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!-- update -->
+    <update id="update" parameterType="com.qdone.common.util.log.SysLog">
+      UPDATE  SYS_LOG  
+         <set>    
+             TITLE = #{title,jdbcType=VARCHAR},
+             TYPE = #{type,jdbcType=CHAR},
+             USER_ID = #{userId,jdbcType=VARCHAR},
+             REQUEST_URI = #{requestUri,jdbcType=VARCHAR},
+             CLASS_NAME = #{className,jdbcType=VARCHAR},
+             METHOD_NAME = #{methodName,jdbcType=VARCHAR},
+             FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+             USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+             REMOTE_IP = #{remoteIp,jdbcType=VARCHAR},
+             REQUEST_METHOD = #{requestMethod,jdbcType=VARCHAR},
+             REQUEST_PARAMS = #{requestParams,jdbcType=LONGVARCHAR},
+             REQUEST_MAC = #{requestMac,jdbcType=VARCHAR},
+             EXCEPTION = #{exception,jdbcType=LONGVARCHAR},
+             ACTION_THREAD = #{actionThread,jdbcType=VARCHAR},
+             ACTION_START_TIME = #{actionStartTime,jdbcType=TIMESTAMP},
+             ACTION_END_TIME = #{actionEndTime,jdbcType=TIMESTAMP},
+             ACTION_TIME = #{actionTime,jdbcType=BIGINT},
+             CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+             DBNAME = #{database,jdbcType=VARCHAR}
+         </set>
+		WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!-- batchUpdate -->
+    <update id="batchUpdate" parameterType="java.util.Map">
+      UPDATE  SYS_LOG  
+         <set>    
+             TITLE = #{title,jdbcType=VARCHAR},
+             TYPE = #{type,jdbcType=CHAR},
+             USER_ID = #{userId,jdbcType=VARCHAR},
+             REQUEST_URI = #{requestUri,jdbcType=VARCHAR},
+             CLASS_NAME = #{className,jdbcType=VARCHAR},
+             METHOD_NAME = #{methodName,jdbcType=VARCHAR},
+             FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+             USER_AGENT = #{userAgent,jdbcType=VARCHAR},
+             REMOTE_IP = #{remoteIp,jdbcType=VARCHAR},
+             REQUEST_METHOD = #{requestMethod,jdbcType=VARCHAR},
+             REQUEST_PARAMS = #{requestParams,jdbcType=LONGVARCHAR},
+             REQUEST_MAC = #{requestMac,jdbcType=VARCHAR},
+             EXCEPTION = #{exception,jdbcType=LONGVARCHAR},
+             ACTION_THREAD = #{actionThread,jdbcType=VARCHAR},
+             ACTION_START_TIME = #{actionStartTime,jdbcType=TIMESTAMP},
+             ACTION_END_TIME = #{actionEndTime,jdbcType=TIMESTAMP},
+             ACTION_TIME = #{actionTime,jdbcType=BIGINT},
+             CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+             DBNAME = #{database,jdbcType=VARCHAR}
+         </set>
+		WHERE id IN 
+      <foreach collection="pkList" index="index" item="item" open="(" separator="," close=")"> 
+        #{item}   
+      </foreach>
+    </update>
+
+    <!-- delete -->
+    <delete id="delete" parameterType="java.lang.Integer">
+      DELETE FROM SYS_LOG WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <!-- batchDelete -->
+    <delete id="batchDelete" parameterType="java.util.List">
+      DELETE FROM SYS_LOG  WHERE id  IN  
+       <foreach collection="list" index="index" item="item" open="(" separator="," close=")">  
+           #{item.id,jdbcType=BIGINT}
+       </foreach> 
+    </delete>
+
+</mapper>
