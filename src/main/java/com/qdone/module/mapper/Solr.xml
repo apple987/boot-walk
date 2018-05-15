@@ -2,6 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.qdone.module.mapper.Solr">
 
     <resultMap id="SolrMap" type="com.qdone.module.model.Solr">
@@ -45,7 +46,7 @@
     <!-- view -->
     <select id="view" parameterType="java.lang.String"  resultMap="SolrMap">
       SELECT <include refid="allColumns" />
-      FROM SOLR WHERE id = #{id,jdbcType=VARCHAR} FOR UPDATE
+      FROM SOLR WHERE id = #{id,jdbcType=VARCHAR}
     </select>
 
     <!-- queryBean -->
@@ -66,17 +67,10 @@
     </select>
 
     <!-- insert -->
-    <!-- <insert id="insert" parameterType="com.qdone.module.model.Solr">
+    <insert id="insert" parameterType="com.qdone.module.model.Solr">
       INSERT INTO SOLR (<include refid="allColumns" />) 
       VALUES(
         #{id,jdbcType=VARCHAR},#{price,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP}
-        )
-    </insert> -->
-    
-    <insert id="insert" parameterType="com.qdone.module.model.Solr">
-      INSERT INTO SOLR (ID,TITLE,NAME,CREATETIME) 
-      VALUES(
-        #{id,jdbcType=VARCHAR},#{title,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{createtime,jdbcType=TIMESTAMP}
         )
     </insert>
 

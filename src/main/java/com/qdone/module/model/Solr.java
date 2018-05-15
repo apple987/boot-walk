@@ -3,6 +3,8 @@ package com.qdone.module.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -24,6 +26,7 @@ public class Solr implements Serializable {
 	@ApiModelProperty(value = "称呼")
 	private String name;// 称呼
 	@ApiModelProperty(value = "创建时间")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date createtime;// 创建时间
 
 	// Constructors
