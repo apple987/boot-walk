@@ -1,21 +1,19 @@
-﻿业余时间，学习SpringBoot用法，目前升级到2.0.2版本 ,欢迎大家提出宝贵意见
- <br> 
+﻿业余时间，学习SpringBoot用法，目前升级到2.0.2版本 ,欢迎大家提出宝贵意见<br>
  <br> 
 **具有如下特点**   
-- 友好的代码结构及注释，便于阅读及二次开发 。
-- 前端页面采用freemarker,模板化引擎设计。  
-- 后端配置swagger在线文档，方便编写API接口文档。 
-- 引入druib,fastjson,cors,xss,redis-cluster配置
-- 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发
-- 引入Hibernate Validator校验框架，轻松实现后端校验
-- 配置全局异常处理，通用日志打印,pagehelper分页,redisson集群模式
-- 配置全局errorPage和welcomeFile完善全局异常处理，优化异常处理代码
-- 配置devtools热部署，针对page目录下的css,js,html页面资源修改之后，项目不需要重新启动
-- 引入druib,javaMelody监控系统各项指标，分析系统瓶颈.
-- 配置elastic-job定时器，强悍的分布式定时任务配置。
-- 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能
-- 配置https安全协议，提高系统安全性。
- <br> 
+- 友好的代码结构及注释，便于阅读及二次开发 。<br>
+- 前端页面采用freemarker,模板化引擎设计。<br>
+- 后端配置swagger在线文档，方便编写API接口文档。 <br>
+- 引入druib,fastjson,cors,xss,redis-cluster配置。<br>
+- 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发。<br>
+- 引入Hibernate Validator校验框架，轻松实现后端校验。<br>
+- 配置全局异常处理，通用日志打印,pagehelper分页,redisson集群模式。<br>
+- 配置全局errorPage和welcomeFile完善全局异常处理，优化异常处理代码。<br>
+- 配置devtools热部署，针对page目录下的css,js,html页面资源修改之后，项目不需要重新启动。<br>
+- 引入druib,javaMelody监控系统各项指标，分析系统瓶颈。<br>
+- 配置elastic-job定时器，强悍的分布式定时任务配置。<br>
+- 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能。<br>
+- 配置https安全协议，提高系统安全性。<br>
  <br> 
 **项目结构** 
 ```
@@ -44,20 +42,20 @@ springBoot
 ```
 <br> 
 <br> 
-环境配置:
-     1.项目依赖,redis-cluster集群,zookeeper,activeMq,solr工具。
-	 2.doc目录里面有初始化sql，运行项目前，请先创建mysql。
+ **环境配置:**
+- 1.项目依赖,redis-cluster集群,zookeeper,activeMq,solr工具。<br>
+- 2.doc目录里面有初始化sql，运行项目前，请先创建mysql。<br>
 <br> 	 
-启动说明:
-	 1.运行doc目录里面的sql文件，创建对应数据库isec
-	 2.启动redis集群,(127.0.0.1:6379~6384，密码:qdone)
-	 3.启动activeMq(默认单机版)
-	 4.启动doc目录的zookeeper，默认单机版本2181
-	 5.运行StartUpApplication启动项目，浏览器访问http://localhost
+ **启动说明:**
+- 1.运行doc目录里面的sql文件，创建对应数据库isec。<br>
+- 2.启动redis集群,(127.0.0.1:6379~6384，密码:qdone)。<br>
+- 3.启动activeMq(默认单机版)。<br>
+- 4.启动doc目录的zookeeper，默认单机版本2181。<br>
+- 5.运行StartUpApplication启动项目，浏览器访问http://localhost。<br>
  <br> 	
- 用户反馈：
-    Git仓库：https://github.com/apple987/boot_walk
-         邮箱地址: m15171479289@163.com 
+ **用户反馈：**
+- Git仓库：https://github.com/apple987/boot_walk <br>
+-  邮箱地址: m15171479289@163.com <br>
 		
 		
 
