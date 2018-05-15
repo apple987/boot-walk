@@ -55,7 +55,7 @@
                       <th data-field="index" data-title="序号" data-align="center"  data-formatter="getRowIndex"></th>
                       <th data-field='pkid' data-sortable='true' data-align='center'  data-title='pkid'></th>
                       <th data-field='sname' data-sortable='true' data-align='center'  data-title='职员姓名'></th>
-                      <th data-field='sex' data-sortable='true' data-align='center'  data-title='职员性别'></th>
+                      <th data-field='sex' data-sortable='true' data-align='center'  data-title='职员性别' data-formatter="sexFormatter"></th>
                       <th data-field='age' data-sortable='true' data-align='center'  data-title='职员年龄'></th>
                       <th data-field='createDate' data-sortable='true' data-align='center'  data-title='创建职员时间'></th>
                       <th data-field='createby' data-sortable='true' data-align='center'  data-title='职员创建者'></th>
@@ -187,6 +187,16 @@
 					}); 
 	        }
 	    }
+        //格式化性别
+	    function sexFormatter(value,row,index) {
+	    	if(value==null||value.length==0||value==undefined){
+	    		return "";
+	    	}else if(value=="1"){
+	    	  return "男";
+	    	}else{
+	    		return "女";
+	    	}
+	    } 
 	    //查询
 		function findStaff(){
 			$("#staffDg").bootstrapTable("refresh",{

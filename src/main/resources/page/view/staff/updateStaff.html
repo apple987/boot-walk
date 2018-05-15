@@ -28,8 +28,14 @@
                             <th>职员性别</th>
                             <td><select id='sex' name='sex' style="width: 174px;" value='${staff.sex}'
 								class="publicSelect2" >
-									<option value="1">男</option>
-									<option value="0">女</option>
+								<#if staff.sex??&&staff.sex ='1'>
+									<option value="1" selected>男</option>
+									<option value="0" >女</option>
+								</#if>
+								<#if staff.sex??&&staff.sex ='0'>
+								     <option value="1" >男</option>
+									<option value="0" selected>女</option>
+								</#if>
 							</select></td>
                       </tr>
                       <tr>
