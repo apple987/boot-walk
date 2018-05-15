@@ -26,19 +26,19 @@ springBoot<br>
 │ <br>
 ├─modules 功能模块<br>
 │  ├─app API接口模块(APP调用)<br>
-|  |_controller 系统模块<br>
-|  |_mapper  mybatis的sql文件<br>
-|  |_model   数据库实体类<br>
-|  |_service 业务逻辑层<br>
+│  ├─controller 系统模块<br>
+│  ├─mapper  mybatis的sql文件<br>
+│  ├─model   数据库实体类<br>
+│  └─service 业务逻辑层<br>
 │ <br>
 ├─StartUpApplication 项目启动类<br>
 │  <br>
 ├──resources <br>
 │  ├─page 页面资源(static,view)<br>
-│  |_application 配置文件<br>
-|  |_banner.txt  自定义启动图标<br>
-|  |_mybatis_config.xml mybatis配置项<br>
-|  |_secure.jks  ssl安全证书<br>
+│  ├─application 配置文件<br>
+│  ├─banner.txt  自定义启动图标<br>
+│  ├─mybatis_config.xml mybatis配置项<br>
+│  └─secure.jks  ssl安全证书<br>
 ```
 <br> 
 <br> 
