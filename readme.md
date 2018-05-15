@@ -13,12 +13,12 @@
 - 引入druib,javaMelody监控系统各项指标，分析系统瓶颈。<br>
 - 配置elastic-job定时器，强悍的分布式定时任务配置。<br>
 - 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能。<br>
-- 配置https安全协议，提高系统安全性。<br>
+- 配置https安全协议，提高系统安全性,配置log4j日志，系统出现异常自动发送邮件。<br>
  <br> 
 **项目结构** <br>
 ```
 springBoot<br>
-├─db  项目SQL语句<br>
+├─doc  项目SQL语句<br>
 │ <br>
 ├─common 公共模块<br>
 │ <br>
