@@ -21,7 +21,7 @@
 springBoot<br>
 ├─doc  项目SQL语句<br>
 │ <br>
-├─common 公共模块<br>
+├─common 公共配置<br>
 │ <br>
 ├─framework 框架配置<br>
 │ <br>
