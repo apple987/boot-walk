@@ -7,7 +7,8 @@
 - 引入druib,fastjson,cors,xss,redis-cluster配置。<br>
 - 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发。<br>
 - 引入Hibernate Validator校验框架，轻松实现后端校验。<br>
-- 配置全局异常处理，通用日志打印,pagehelper分页,redisson集群模式。<br>
+- 配置全局异常处理，通用日志打印,pagehelper分页。<br>
+- 配置redisson集群模式,使用分布式锁，保证并发的数据一致性。<br>
 - 配置全局errorPage和welcomeFile完善全局异常处理，优化异常处理代码。<br>
 - 配置devtools热部署，针对page目录下的css,js,html页面资源修改之后，项目不需要重新启动。<br>
 - 引入druib,javaMelody监控系统各项指标，分析系统瓶颈。<br>
