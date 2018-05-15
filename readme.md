@@ -15,45 +15,45 @@
 - 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能。<br>
 - 配置https安全协议，提高系统安全性。<br>
  <br> 
-**项目结构** 
+**项目结构** <br>
 ```
-springBoot
-├─db  项目SQL语句
-│
-├─common 公共模块
-│ 
-├─framework 框架配置
-│ 
-├─modules 功能模块
-│  ├─app API接口模块(APP调用)
-|  |_controller 系统模块
-|  |_mapper  mybatis的sql文件
-|  |_model   数据库实体类
-|  |_service 业务逻辑层
-│ 
-├─StartUpApplication 项目启动类
-│  
-├──resources 
-│  ├─page 页面资源(static,view)
-│  |_application 配置文件
-|  |_banner.txt  自定义启动图标
-|  |_mybatis_config.xml mybatis配置项
-|  |_secure.jks  ssl安全证书
+springBoot<br>
+├─db  项目SQL语句<br>
+│<br>
+├─common 公共模块<br>
+│ <br>
+├─framework 框架配置<br>
+│ <br>
+├─modules 功能模块<br>
+│  ├─app API接口模块(APP调用)<br>
+|  |_controller 系统模块<br>
+|  |_mapper  mybatis的sql文件<br>
+|  |_model   数据库实体类<br>
+|  |_service 业务逻辑层<br>
+│ <br>
+├─StartUpApplication 项目启动类<br>
+│  <br>
+├──resources <br>
+│  ├─page 页面资源(static,view)<br>
+│  |_application 配置文件<br>
+|  |_banner.txt  自定义启动图标<br>
+|  |_mybatis_config.xml mybatis配置项<br>
+|  |_secure.jks  ssl安全证书<br>
 ```
 <br> 
 <br> 
- **环境配置:**
+ **环境配置:**<br>
 - 1.项目依赖,redis-cluster集群,zookeeper,activeMq,solr工具。<br>
 - 2.doc目录里面有初始化sql，运行项目前，请先创建mysql。<br>
 <br> 	 
- **启动说明:**
+ **启动说明:**<br>
 - 1.运行doc目录里面的sql文件，创建对应数据库isec。<br>
 - 2.启动redis集群,(127.0.0.1:6379~6384，密码:qdone)。<br>
 - 3.启动activeMq(默认单机版)。<br>
 - 4.启动doc目录的zookeeper，默认单机版本2181。<br>
 - 5.运行StartUpApplication启动项目，浏览器访问http://localhost。<br>
  <br> 	
- **用户反馈：**
+ **用户反馈：**<br>
 - Git仓库：https://github.com/apple987/boot_walk <br>
 -  邮箱地址: m15171479289@163.com <br>
 		
