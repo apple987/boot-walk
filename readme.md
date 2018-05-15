@@ -97,6 +97,11 @@
 更新日志:
       1.添加secure.jks配置文件，添加https支持，配置自动http跳转https，具体参考HttpsConfig
       2.TestController添加简单validate使用，前端postMan请求https://localhost:9090/springBoot/create传递参数，试试看
+2018-05-15
+更新日志：1.添加solrDataController使用solrClient简单solrj操作solr数据
+        (启用spring.data.solr.host=http://localhost:8983/rainsoft)
+       2.配置SolrDataService简单操作solr数据
+        (启用:SolrDataService时，需要配置:spring.data.solr.host=http://localhost:8983)
 环境配置:
       1.项目依赖,redis-cluster集群,zookeeper,activeMq工具。
 	  2.doc目录里面有初始化sql，运行项目前，请先创建mysql。
