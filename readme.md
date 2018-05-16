@@ -45,9 +45,9 @@ springBoot<br>
 <br> 
 <br> 
  **环境配置:**<br>
-- 1.项目依赖,redis-cluster集群,zookeeper,activeMq,solr工具。<br>
+- 1.项目依赖,redis-cluster集群,zookeeper,activeMq,solr工具,目前工具运行环境(win7 x64)。<br>
 - 2.doc目录里面有初始化sql，运行项目前，请先创建mysql。<br>
-- 3.工具(环境win7 x64)地址:https://pan.baidu.com/s/1PVjA0O7TCOz3a5Bp1AMnFg
+- 3.工具地址:https://pan.baidu.com/s/1PVjA0O7TCOz3a5Bp1AMnFg
 <br> 
 <br> 	 
  **启动说明:**<br>
