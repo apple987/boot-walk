@@ -52,10 +52,11 @@ springBoot<br>
 <br> 	 
  **启动说明:**<br>
 - 1.运行doc目录里面的sql文件，创建对应数据库isec。<br>
-- 2.启动redis集群,(127.0.0.1:6379~6384，密码:qdone)。<br>
+- 2.启动redis集群(127.0.0.1:6379~6384，密码:qdone)。<br>
 - 3.启动activeMq(默认单机版)。<br>
-- 4.启动doc目录的zookeeper，默认单机版本2181。<br>
-- 5.运行StartUpApplication启动项目，浏览器访问http://localhost。<br>
+- 4.启动solr(默认单机版)。<br>
+- 5.启动zookeeper(默认单机版本2181)。<br>
+- 6.运行StartUpApplication启动项目，浏览器访问http://localhost。<br>
  <br> 	
  **用户反馈：**<br>
 - Git仓库：https://github.com/apple987/boot_walk <br>
