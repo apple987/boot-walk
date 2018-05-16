@@ -37,7 +37,7 @@ springBoot<br>
 │  <br>
 ├──resources <br>
 │  ├─page 页面资源(static,view)<br>
-│  ├─application 配置文件<br>
+│  ├─application.properties 配置文件<br>
 │  ├─banner.txt  自定义启动图标<br>
 │  ├─mybatis_config.xml mybatis配置项<br>
 │  └─secure.jks  ssl安全证书<br>
