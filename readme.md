@@ -1,21 +1,21 @@
-﻿工作业余时间，结合项目使用技术点，整合到SpringBoot中，目前升级到2.0.2版本 ,您的宝贵意见，是我们进步的动力。<br>
+﻿#工作业余时间，结合项目使用技术点，整合到SpringBoot中，目前升级到2.0.2版本 ,您的宝贵意见，是我们进步的动力。<br>
  <br> 
 **具有如下特点**   
-- 友好的代码结构及注释，便于阅读及二次开发 。<br>
-- 前端页面采用freemarker,模板化引擎设计,页面采用bootstrap-table灵活强大的表格插件。<br>
-- 后端配置swagger在线文档，方便编写API接口文档。 <br>
-- 引入druib,fastjson,cors,xss,redis-cluster配置。<br>
-- 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发。<br>
-- 引入Hibernate Validator校验框架，轻松实现后端校验。<br>
-- 配置全局异常处理，通用日志打印,pagehelper分页。<br>
-- 配置redisson集群模式,使用分布式锁，保证并发的数据一致性。<br>
-- 配置全局errorPage和welcomeFile完善全局异常处理，优化异常处理代码。<br>
-- 配置devtools热部署，针对page目录下的css,js,html页面资源修改之后，项目不需要重新启动。<br>
-- 引入druib,javaMelody监控系统各项指标，分析系统瓶颈。<br>
-- 配置elastic-job定时器，强悍的分布式定时任务配置。<br>
-- 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能。<br>
-- 配置https安全协议，提高系统安全性,配置log4j日志，系统出现异常自动发送邮件。<br>
-- 配置poi和csv简单导出excel功能点,poi目前是多sheet智能导出。<br>
+> * 友好的代码结构及注释，便于阅读及二次开发 。<br>
+> * 前端页面采用freemarker,模板化引擎设计,页面采用bootstrap-table灵活强大的表格插件。<br>
+> * 后端配置swagger在线文档，方便编写API接口文档。 <br>
+> * 引入druib,fastjson,cors,xss,redis-cluster配置。<br>
+> * 引入API模板，根据token作为登录令牌，极大的方便了APP接口开发。<br>
+> * 引入Hibernate Validator校验框架，轻松实现后端校验。<br>
+> * 配置全局异常处理，通用日志打印,pagehelper分页。<br>
+> * 配置redisson集群模式,使用分布式锁，保证并发的数据一致性。<br>
+> * 配置全局errorPage和welcomeFile完善全局异常处理，优化异常处理代码。<br>
+> * 配置devtools热部署，针对page目录下的css,js,html页面资源修改之后，项目不需要重新启动。<br>
+> * 引入druib,javaMelody监控系统各项指标，分析系统瓶颈。<br>
+> * 配置elastic-job定时器，强悍的分布式定时任务配置。<br>
+> * 配置fileupload(默认配置最大100MB)，下载文件，生成二维码，二维码打印，mail发邮件等功能。<br>
+> * 配置https安全协议，提高系统安全性,配置log4j日志，系统出现异常自动发送邮件。<br>
+> * 配置poi和csv简单导出excel功能点,poi目前是多sheet智能导出。<br>
  <br> 
 **项目结构** <br>
 ```
