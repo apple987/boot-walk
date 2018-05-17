@@ -19,7 +19,7 @@
  <br> 
 **项目结构** <br>
 ```
-springBoot<br>
+boot-walk<br>
 ├─doc  项目SQL语句<br>
 │ <br>
 ├─common 公共配置<br>
