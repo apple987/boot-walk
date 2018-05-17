@@ -59,9 +59,10 @@ boot-walk<br>
 - 6.运行StartUpApplication启动项目，浏览器访问http://localhost。<br>
  <br> 	
  **用户反馈：**<br>
-- Git仓库：https://github.com/apple987/boot_walk <br>
+- Git仓库： https://github.com/apple987/boot_walk <br>
 - 码云仓库： https://gitee.com/bootstrap2table/boot_master<br>
--  邮箱地址: m15171479289@163.com <br>
+- 代码生成： https://github.com/apple987/AutoCode<br>
+- 邮箱地址:  m15171479289@163.com <br>
 		
 		
 
