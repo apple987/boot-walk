@@ -52,7 +52,7 @@ boot-walk<br>
 <br> 
 <br> 	 
  **启动说明:**<br>
-- 1.运行doc目录里面的sql文件，创建对应数据库isec。<br>
+- 1.创建mysql数据库isec实例,运行doc目录里面的sql文件。<br>
 - 2.启动redis集群(127.0.0.1:6379~6384，密码:qdone)。<br>
 - 3.启动activeMq(默认单机版)。<br>
 - 4.启动solr(默认单机版)。<br>
