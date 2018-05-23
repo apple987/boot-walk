@@ -406,4 +406,20 @@ public class StudentController extends BaseController {
 	public void reportCurrentTime() {
 		System.out.println("现在时间：" + new SimpleDateFormat("HH:mm:ss").format(new Date()));
 	}
+	
+	
+	@ApiOperation(value = "测试格式化显示", notes = "测试格式化显示", httpMethod = "GET")
+	@RequestMapping(value = "/formatCode", method = RequestMethod.GET)
+	public String formatCode(HttpServletRequest req) {
+		System.err.println("formatJson");
+		List<Student> arr = studentService.selectList(null);
+		if (CollectionUtils.isNotEmpty(arr)) {
+			req.setAttribute("jsonData", JSON.toJSONStringWithDateFormat(arr.get(0), "yyyy-MM-dd hh:mm:ss"));
+			req.setAttribute("xmlData", "<code name=\"id\"><data name=\"apple\">我是内容</data></code>");
+			req.setAttribute("cssData", "p.no2 {background-color: gray; padding: 20px;}");
+			req.setAttribute("sqlData", "select * from student where 1=1 and id=\"123456\" ");
+		}
+		return "format_code";
+	}
+
 }
