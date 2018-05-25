@@ -1,11 +1,5 @@
 package com.qdone.framework.util.lock;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.concurrent.TimeUnit;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -16,6 +10,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 /**
  * redis分布式锁切面处理
  * @author 付为地
@@ -94,7 +94,9 @@ public class RedisLockAspect {
      */
 	private  String getLockKey(ProceedingJoinPoint point, String lockKey) {
         try {
+            StringBuffer sb=new StringBuffer(1024);
             lockKey = "DistRedisLock:" + lockKey;
+            sb.append(lockKey);
             Object[] args = point.getArgs();
             if (args != null && args.length > 0) {
                 MethodSignature methodSignature = (MethodSignature)point.getSignature();
@@ -111,12 +113,13 @@ public class RedisLockAspect {
                 }
                 if (keys != null && keys.size() > 0){
                     for (String key : keys.values()) {
-                        lockKey += key;
+                        sb.append(key);
+                        /*lockKey += key;*/
                     }
                 }
             }
 
-            return lockKey;
+            return sb.toString();
         } catch (Exception e) {
             logger.error("getLockKey error.", e);
         }

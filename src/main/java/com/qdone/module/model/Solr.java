@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.ObjectUtils;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -70,11 +71,11 @@ public class Solr implements Serializable {
 	}
 
 	public void setCreatetime(Date createtime) {
-		this.createtime = createtime;
+		this.createtime = ObjectUtils.isEmpty(createtime)?createtime:(Date)createtime.clone();
 	}
 
 	public Date getCreatetime() {
-		return this.createtime;
+		return ObjectUtils.isEmpty(this.createtime)?this.createtime:(Date)this.createtime.clone();
 	}
 
 }

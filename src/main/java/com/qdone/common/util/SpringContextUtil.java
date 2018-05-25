@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SpringContextUtil implements ApplicationContextAware {
 
-	private static ApplicationContext applicationContext; // Spring应用上下文环境
+	private  ApplicationContext applicationContext; // Spring应用上下文环境
 
 	/**
 	 * 实现ApplicationContextAware接口的回调方法，设置上下文环境
@@ -23,14 +23,14 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @throws BeansException
 	 */
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		SpringContextUtil.applicationContext = applicationContext;
+		this.applicationContext = applicationContext;
 	}
 
 	/**
 	 * @return ApplicationContext
 	 */
-	public static ApplicationContext getApplicationContext() {
-		return SpringContextUtil.applicationContext;
+	public  ApplicationContext getApplicationContext() {
+		return this.applicationContext;
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @return Object 一个以所给名字注册的bean的实例
 	 * @throws BeansException
 	 */
-	public static Object getBean(String name) throws BeansException {
+	public  Object getBean(String name) throws BeansException {
 		return applicationContext.getBean(name);
 	}
 
@@ -56,7 +56,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @return Object 返回requiredType类型对象
 	 * @throws BeansException
 	 */
-	public static <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+	public  <T> T getBean(String name, Class<T> requiredType) throws BeansException {
 		return (T) applicationContext.getBean(name, requiredType);
 	}
 
@@ -66,7 +66,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @param name
 	 * @return boolean
 	 */
-	public static boolean containsBean(String name) {
+	public  boolean containsBean(String name) {
 		return applicationContext.containsBean(name);
 	}
 
@@ -78,7 +78,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @return boolean
 	 * @throws NoSuchBeanDefinitionException
 	 */
-	public static boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
+	public  boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
 		return applicationContext.isSingleton(name);
 	}
 
@@ -88,7 +88,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @throws NoSuchBeanDefinitionException
 	 */
 	@SuppressWarnings("rawtypes")
-	public static Class getType(String name) throws NoSuchBeanDefinitionException {
+	public  Class getType(String name) throws NoSuchBeanDefinitionException {
 		return applicationContext.getType(name);
 	}
 
@@ -99,7 +99,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 	 * @return
 	 * @throws NoSuchBeanDefinitionException
 	 */
-	public static String[] getAliases(String name) throws NoSuchBeanDefinitionException {
+	public  String[] getAliases(String name) throws NoSuchBeanDefinitionException {
 		return applicationContext.getAliases(name);
 	}
 }

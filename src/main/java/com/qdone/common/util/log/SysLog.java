@@ -1,13 +1,11 @@
 package com.qdone.common.util.log;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.qdone.framework.core.page.MutiSort;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
   *该代码由付为地的编码机器人自动生成
@@ -193,19 +191,19 @@ public class SysLog  extends MutiSort {
     }
 
     public void setActionStartTime(Date actionStartTime) {
-        this.actionStartTime = actionStartTime;
+        this.actionStartTime = (Date) actionStartTime.clone();
     }
 
     public Date getActionStartTime() {
-        return this.actionStartTime;
+        return (Date)this.actionStartTime.clone();
     }
 
     public void setActionEndTime(Date actionEndTime) {
-        this.actionEndTime = actionEndTime;
+        this.actionEndTime = (Date)actionEndTime.clone();
     }
 
     public Date getActionEndTime() {
-        return this.actionEndTime;
+        return (Date)this.actionEndTime.clone();
     }
 
     public void setActionTime(Long actionTime) {
@@ -217,11 +215,11 @@ public class SysLog  extends MutiSort {
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createDate = (Date)createDate.clone();
     }
 
     public Date getCreateDate() {
-        return this.createDate;
+        return (Date)this.createDate.clone();
     }
 
     public void setDatabase(String database) {

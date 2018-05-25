@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.util.ObjectUtils;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -60,11 +61,14 @@ public class SolrData  implements Serializable{
 	}
 	
 	public Date getCreateTime() {
-		return createTime;
+		return  ObjectUtils.isEmpty(this.createTime)?this.createTime:(Date)this.createTime.clone();
 	}
+	
 	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
+		this.createTime = ObjectUtils.isEmpty(createTime)?createTime:(Date)createTime.clone();
 	}
+	
+	
 	@Override
 	public String toString(){
 		StringBuilder builder=new StringBuilder();

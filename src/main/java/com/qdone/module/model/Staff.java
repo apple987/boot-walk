@@ -5,6 +5,7 @@ import java.util.Date;
 import com.qdone.framework.core.page.MutiSort;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.ObjectUtils;
 
 import io.swagger.annotations.ApiModel;
 
@@ -83,11 +84,11 @@ public class Staff  extends MutiSort {
     }
 
     public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+        this.createDate =ObjectUtils.isEmpty(createDate)?createDate:(Date)createDate.clone();
     }
 
     public Date getCreateDate() {
-        return this.createDate;
+        return ObjectUtils.isEmpty(this.createDate)?this.createDate:(Date)this.createDate.clone();
     }
 
     public void setCreateby(String createby) {
@@ -99,11 +100,11 @@ public class Staff  extends MutiSort {
     }
 
     public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
+        this.updateDate = ObjectUtils.isEmpty(updateDate)?updateDate:(Date)updateDate.clone();
     }
 
     public Date getUpdateDate() {
-        return this.updateDate;
+        return ObjectUtils.isEmpty(updateDate)?updateDate:(Date)updateDate.clone();
     }
 
     public void setUpdateby(String updateby) {
@@ -115,11 +116,11 @@ public class Staff  extends MutiSort {
     }
 
     public void setPolice(byte[] police) {
-        this.police = police;
+        this.police = ObjectUtils.isEmpty(police)?police:(byte[])police.clone();
     }
 
     public byte[] getPolice() {
-        return this.police;
+        return ObjectUtils.isEmpty(police)?police:(byte[])police.clone();
     }
 
 }

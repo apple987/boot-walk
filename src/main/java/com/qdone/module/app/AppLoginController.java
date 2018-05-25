@@ -1,12 +1,17 @@
 package com.qdone.module.app;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +22,9 @@ import com.qdone.common.util.JwtUtils;
 /*import com.rainsoft.mvc.controller.Result;
 import com.rainsoft.mvc.test.User;*/
 import com.qdone.common.util.Result;
+import com.qdone.framework.annotation.Function;
 import com.qdone.framework.annotation.Login;
+import com.qdone.module.model.Student;
 import com.qdone.module.model.User;
 
 import io.jsonwebtoken.Claims;
@@ -102,4 +109,80 @@ public class AppLoginController {
     	res.setData(usr1);
     	return res;
     }
+    
+    /***********************************模拟多种方式传递参数，特殊性针对request,map,mutisort三种******************************************************************/
+    @ApiOperation(value = "logParam", httpMethod = "POST", notes = "logParam", response = Result.class)
+    @PostMapping("testParam")
+    @Function("logParam")
+    public Result<HashMap<String, Object>> testParam(@ApiParam(required = true, value = "账户名称", name = "userId") @RequestParam(value = "userId") String userId,
+    		@ApiParam(required = true, value = "账户密码", name = "password") @RequestParam(value = "password")  String password
+    		,HttpServletRequest request,HttpServletResponse resp,
+    		@ApiParam(name = "学生对象", value = "传入json格式", required = true) @RequestBody Student entity,
+    		@ApiParam(name = "map", value = "map", required = true) @RequestParam Map<String,Object> mp
+    		){
+    	Assert.isTrue(StringUtils.isNotEmpty(userId), "账户名称不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(password), "账户密码不能为空");
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
+    @ApiOperation(value = "logParam1", httpMethod = "POST", notes = "logParam1", response = Result.class)
+    @PostMapping("testParam1")
+    @Function("logParam1")
+    public Result<HashMap<String, Object>> testParam1(@ApiParam(required = true, value = "账户名称", name = "userId") @RequestParam(value = "userId") String userId,
+    		@ApiParam(required = true, value = "账户密码", name = "password") @RequestParam(value = "password")  String password
+    		,HttpServletResponse resp,
+    		@ApiParam(name = "学生对象", value = "传入json格式", required = true) @RequestBody Student entity,
+    		@ApiParam(name = "map", value = "map", required = true) @RequestParam Map<String,Object> mp
+    		){
+    	Assert.isTrue(StringUtils.isNotEmpty(userId), "账户名称不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(password), "账户密码不能为空");
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
+    @ApiOperation(value = "logParam2", httpMethod = "POST", notes = "logParam2", response = Result.class)
+    @PostMapping("testParam2")
+    @Function("logParam2")
+    public Result<HashMap<String, Object>> testParam2(@ApiParam(required = true, value = "账户名称", name = "userId") @RequestParam(value = "userId") String userId,
+    		@ApiParam(required = true, value = "账户密码", name = "password") @RequestParam(value = "password")  String password
+    		,HttpServletResponse resp,
+    		@ApiParam(name = "学生对象", value = "传入json格式", required = true) @RequestBody Student entity
+    		){
+    	Assert.isTrue(StringUtils.isNotEmpty(userId), "账户名称不能为空");
+        Assert.isTrue(StringUtils.isNotEmpty(password), "账户密码不能为空");
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
+    @ApiOperation(value = "logParam3", httpMethod = "POST", notes = "logParam3", response = Result.class)
+    @PostMapping("testParam3")
+    @Function("logParam3")
+    public Result<HashMap<String, Object>> testParam3(@ApiParam(required = true, value = "账户名称", name = "userId") @RequestParam(value = "userId") String userId,
+    		@ApiParam(required = true, value = "账户密码", name = "password") @RequestParam(value = "password")  String password
+    		,HttpServletResponse resp
+    		){
+    	/*Assert.isTrue(StringUtils.isNotEmpty(userId), "账户名称不能为空");*/
+        Assert.isTrue(StringUtils.isNotEmpty(password), "账户密码不能为空");
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
+    
+    @ApiOperation(value = "logParam4", httpMethod = "POST", notes = "logParam4", response = Result.class)
+    @PostMapping("testParam4")
+    @Function("logParam4")
+    public Result<HashMap<String, Object>> testParam4(HttpServletResponse resp){
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
+    @ApiOperation(value = "logParam5", httpMethod = "POST", notes = "logParam5", response = Result.class)
+    @PostMapping("testParam5")
+    @Function("logParam5")
+    public Result<HashMap<String, Object>> testParam5(){
+    	Result<HashMap<String, Object>> res=new Result<HashMap<String, Object>>();
+    	return res;
+    }
+    
 }

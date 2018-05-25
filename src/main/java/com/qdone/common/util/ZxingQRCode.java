@@ -1,23 +1,19 @@
 package com.qdone.common.util;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
 
 /**
  * 利用zxing生成二维码
@@ -265,10 +261,10 @@ public class ZxingQRCode{
 		// 计算比例
 		if ((srcImage.getHeight() > height) || (srcImage.getWidth() > width)) {
 			if (srcImage.getHeight() > srcImage.getWidth()) {
-				ratio = (new Integer(height)).doubleValue()
+				ratio = (Integer.valueOf(height)).doubleValue()
 						/ srcImage.getHeight();
 			} else {
-				ratio = (new Integer(width)).doubleValue()
+				ratio = (Integer.valueOf(width)).doubleValue()
 						/ srcImage.getWidth();
 			}
 			AffineTransformOp op = new AffineTransformOp(
@@ -297,9 +293,9 @@ public class ZxingQRCode{
 		return (BufferedImage) destImage;
 	}
 
-	public static void main(String[] args) throws UnsupportedEncodingException {
+	/*public static void main(String[] args) throws UnsupportedEncodingException {
 		// 依次为内容(不支持中文),宽,长,logo图标路径,储存路径
 		ZxingQRCode.encode("http://www.baidu.com/", 512, 512, "D://qrcode//timg.jpg",
 				"D:\\2013-01.jpg");
-	}
+	}*/
 }

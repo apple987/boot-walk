@@ -1,24 +1,23 @@
 package com.qdone.common.util;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.TreeSet;
-
+import com.qdone.framework.exception.RRException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
-import com.qdone.framework.exception.RRException;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
+
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * @author 付为地 jwt工具类 也可以考虑,采用redis做tonken生成 采用token实现,服务器无状态,分布式等方式都方便
@@ -137,8 +136,10 @@ public class JwtUtils {
 		logger.debug("开始JwtUtils.keys获取集群keys传入表达式:" + pattern);
 		TreeSet<String> keys = new TreeSet<>();
 		Map<String, JedisPool> clusterNodes = jedisCluster.getClusterNodes();
-		for (String k : clusterNodes.keySet()) {
-			JedisPool jedisPool = clusterNodes.get(k);
+		Iterator<Map.Entry<String, JedisPool>> it= clusterNodes.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, JedisPool> et=it.next();
+			JedisPool jedisPool = et.getValue();
 			Jedis jedis = jedisPool.getResource();
 			try {
 				keys.addAll(jedis.keys(pattern));

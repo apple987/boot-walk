@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<title>页面格式化显示数据</title>
+<meta name="description" content="" />
+<meta name="author" content="pc" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0, maximum-scale=1, minimum-scale=1, user-scalable=no" />
+<meta name="screen-orientation" content="portrait">
+<meta name="format-detection" content="telephone=no" />
+<#include "/inc/common.html">
+<style>
+.nowrap dt {
+	float: left;
+}
+
+tr td {
+	width: 100px !important;
+}
+</style>
+</head>
+<body>
+	<h2 class="contentTitle">格式化显示</h2>
+	<h3>使用vkbeautify.js格式化显示json,xml,css,sql数据</h3>
+	<div class="pageFormContent" layoutH="60"
+		style="width: 400px; height: 700px;">
+		<table border=0 style="width: 400px; height: 700px;">
+			<tr style="height: 50px; border: 0; text-align: center;">
+				<td>JSON源数据</td>
+				<tD>JSON格式化</td>
+				<td>XML源数据</td>
+				<td>XML格式化</td>
+				<td>CSS源数据</td>
+				<tD>CSS格式化</td>
+				<td>SQL源数据</td>
+				<td>sql格式化</td>
+			</tr>
+			<tr>
+				<td><textarea id="bqs" name="bqs" readonly="true" cols="65" rows="80">${jsonData}</textarea></td>
+				<tD><textarea id="td" name="td" readonly="true" cols="65" rows="80">${jsonData}</textarea></td>
+				<td><textarea id="dhb" name="dhb" readonly="true" cols="65" rows="80">${xmlData}</textarea></td>
+				<td><textarea id="mg" name="mg" readonly="true" cols="65" rows="80">${xmlData}</textarea></td>
+				<td><textarea id="cs" name="cs" readonly="true" cols="65" rows="80">${cssData}</textarea></td>
+				<td><textarea id="csc" name="csc" readonly="true" cols="65" rows="80">${cssData}</textarea></td>
+				<td><textarea id="sq" name="sq" readonly="true" cols="65" rows="80">${sqlData}</textarea></td>
+				<td><textarea id="sqs" name="sqs" readonly="true" cols="65" rows="80">${sqlData}</textarea></td>
+			</tr>
+		</table>
+	</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	/*JSON格式化*/
+	if('${jsonData}'!=''&&'${jsonData}'.length>0){
+		$("#td").val(vkbeautify.json('${jsonData}',4));
+	} 
+	/*XML格式化*/
+	if('${xmlData}'!=''&&'${xmlData}'.length>0){
+		$("#mg").val(vkbeautify.xml('${xmlData}'));
+	}
+	/*css格式化*/
+	if('${cssData}'!=''&&'${cssData}'.length>0){
+		$("#csc").val(vkbeautify.css('${cssData}', '     '));
+	}
+	/*sql格式化*/
+	if('${sqlData}'!=''&&'${sqlData}'.length>0){
+		$("#sqs").val(vkbeautify.sql('${sqlData}', '----'));
+	}
+})
+</script>
+</html>

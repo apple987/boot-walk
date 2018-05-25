@@ -2,6 +2,7 @@ package com.qdone.framework.exception;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ public class ExceptionResolver extends SimpleMappingExceptionResolver {
 	protected ModelAndView doResolveException(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex) {
 		
+		HttpSession session=request.getSession();
 		response.setCharacterEncoding("utf-8");
 		String viewName = determineViewName(ex, request);
 		if (viewName != null) {
@@ -37,14 +39,14 @@ public class ExceptionResolver extends SimpleMappingExceptionResolver {
 				// 跳转到提示页面
 				AjaxResult result = new AjaxResult();
 				result.addError(ex.getMessage());
-				request.getSession().setAttribute("result", result);
+				session.setAttribute("result", result);
 				return getModelAndView(viewName, ex, request);
 			} else {
 				// 异步方式返回
 				try {
 					AjaxResult result = new AjaxResult();
 					result.addError(ex.getMessage());
-					request.getSession().setAttribute("result", result);
+					session.setAttribute("result", result);
 				} catch (Exception e) {
 					e.printStackTrace();
 					logger.error("ajax异常:", e);

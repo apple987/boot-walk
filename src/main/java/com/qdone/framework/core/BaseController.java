@@ -1,23 +1,17 @@
 package com.qdone.framework.core;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import com.qdone.framework.core.constant.Constants;
 import com.qdone.framework.core.page.CoreUtil;
 import com.qdone.framework.core.page.PageList;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import java.util.*;
 
 public class BaseController {
 
 
-	public static final List<Object> noRrcords = new ArrayList<Object>(0);
+	protected static final List<Object> noRrcords = new ArrayList<Object>(0);
 
 	/**
 	 * 所有ActionMap 统一从这里获取
@@ -76,11 +70,10 @@ public class BaseController {
 	 * @return
 	 */
 	public Map<String, Object> filterEmpty(Map<String, Object> mp) {
-		Iterator<String> it = mp.keySet().iterator();
-		while (it.hasNext()) {
-			String key = (String) it.next();
-			String temp = CoreUtil.conventEmpty2Null(mp.get(key));
-			mp.put(key, temp);
+		Iterator<Map.Entry<String, Object>> entryKeyIterator = mp.entrySet().iterator();
+		while (entryKeyIterator.hasNext()) {
+			Map.Entry<String, Object> e = entryKeyIterator.next();
+			mp.put(e.getKey(), CoreUtil.conventEmpty2Null(e.getValue()));
 		}
 		return mp;
 	}

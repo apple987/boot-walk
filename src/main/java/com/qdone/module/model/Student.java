@@ -3,6 +3,7 @@ package com.qdone.module.model;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.ObjectUtils;
 
 import com.qdone.framework.core.page.MutiSort;
 
@@ -77,27 +78,27 @@ public class Student  extends MutiSort {
     }
 
     public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+        this.birthday = ObjectUtils.isEmpty(birthday)?birthday:(Date)birthday.clone();
     }
 
     public Date getBirthday() {
-        return this.birthday;
+        return ObjectUtils.isEmpty(this.birthday)?this.birthday:(Date)this.birthday.clone();
     }
 
 	public Date getStartDate() {
-		return startDate;
+		return ObjectUtils.isEmpty(this.startDate)?this.startDate:(Date)this.startDate.clone();
 	}
 
 	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+		this.startDate = ObjectUtils.isEmpty(startDate)?startDate:(Date)startDate.clone();
 	}
 
 	public Date getEndDate() {
-		return endDate;
+		return ObjectUtils.isEmpty(this.endDate)?this.endDate:(Date)this.endDate.clone();
 	}
 
 	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+		this.endDate = ObjectUtils.isEmpty(endDate)?endDate:(Date)endDate.clone();;
 	}
 
 }

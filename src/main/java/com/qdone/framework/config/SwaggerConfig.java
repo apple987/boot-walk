@@ -45,7 +45,7 @@ public class SwaggerConfig{
 	 * swagger分组InnerApi
 	 */
     @Bean
-    public Docket InnerApi() {
+    public Docket innerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
         		.enable(isOpen)
                 .groupName("InnerApi")  

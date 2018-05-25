@@ -274,7 +274,7 @@ public class DateUtil extends org.apache.commons.lang.time.DateUtils{
 			ca.set(Calendar.SECOND, 0);
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("startDateStr", getDateByCalendar(ca));
-		} else if ("1".equals(flag) & "0".equals(direction)) {
+		} else if ("1".equals(flag) && "0".equals(direction)) {
 			paraMap.put("endDate", ca.getTime());
 			paraMap.put("endDateStr", getDateByCalendar(ca));
 			ca.add(Calendar.DAY_OF_YEAR, -6);// 提前一个周
@@ -283,7 +283,7 @@ public class DateUtil extends org.apache.commons.lang.time.DateUtils{
 			ca.set(Calendar.SECOND, 0);
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("stratDateStr", getDateByCalendar(ca));
-		} else if ("1".equals(flag) & "1".equals(direction)) {
+		} else if ("1".equals(flag) && "1".equals(direction)) {
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("stratDateStr", getDateByCalendar(ca));
 			ca.add(Calendar.DAY_OF_YEAR, 6);// 滞后一个周
@@ -301,7 +301,7 @@ public class DateUtil extends org.apache.commons.lang.time.DateUtils{
 			ca.set(Calendar.SECOND, 0);
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("stratDateStr", getDateByCalendar(ca));
-		} else if ("3".equals(flag) & "0".equals(direction)) {
+		} else if ("3".equals(flag) && "0".equals(direction)) {
 			paraMap.put("endDate", ca.getTime());
 			paraMap.put("endDateStr", getDateByCalendar(ca));
 			ca.add(Calendar.MONTH, -1);
@@ -310,7 +310,7 @@ public class DateUtil extends org.apache.commons.lang.time.DateUtils{
 			ca.set(Calendar.SECOND, 0);
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("stratDateStr", getDateByCalendar(ca));
-		} else if ("3".equals(flag) & "1".equals(direction)) {
+		} else if ("3".equals(flag) && "1".equals(direction)) {
 			paraMap.put("stratDate", ca.getTime());
 			paraMap.put("stratDateStr", getDateByCalendar(ca));
 			ca.add(Calendar.MONTH, 1);

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -93,12 +94,21 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 	public Map<String, String[]> getParameterMap() {
 		Map<String, String[]> map = new LinkedHashMap<>();
 		Map<String, String[]> parameters = super.getParameterMap();
-		for (String key : parameters.keySet()) {
+		/*for (String key : parameters.keySet()) {
 			String[] values = parameters.get(key);
 			for (int i = 0; i < values.length; i++) {
 				values[i] = xssEncode(values[i]);
 			}
 			map.put(key, values);
+		}*/
+		Iterator<Map.Entry<String, String[]>> it=parameters.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, String[]> et=it.next();
+			String[] values = et.getValue();
+			for (int i = 0; i < values.length; i++) {
+				values[i] = xssEncode(values[i]);
+			}
+			map.put(et.getKey(), values);
 		}
 		return map;
 	}

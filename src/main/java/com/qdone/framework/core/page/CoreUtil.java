@@ -5,15 +5,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.ObjectUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.qdone.framework.core.constant.Constants;
 
 
@@ -122,38 +124,7 @@ public class CoreUtil {
 		}
 		return str;
 	}
-	/**
-	 * 读取request成Map
-	 * @param request
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	public static  Map<String,Object> getRequestMap(HttpServletRequest request) {
-		Map<String,String[]> properties = request.getParameterMap();//参数Map
-		Map<String,Object> returnMap = new HashMap<String,Object>();
-		Iterator<Entry<String, String[]>> entries = properties.entrySet().iterator();//返回值Map
-		Map.Entry entry;
-		String name = "";
-		String value = "";
-		while (entries.hasNext()) {
-			entry = (Map.Entry) entries.next();
-			name = (String) entry.getKey();
-			Object valueObj = entry.getValue();
-			if(null == valueObj){
-				value = "";
-			}else if(valueObj instanceof String[]){
-				String[] values = (String[])valueObj;
-				for(int i=0;i<values.length;i++){
-					value = values[i] + ",";
-				}
-				value = value.substring(0, value.length()-1);
-			}else{
-				value = valueObj.toString();
-			}
-			returnMap.put(name, ISO2Utf8(value));
-		}
-		return returnMap;
-	} 
+	
 	/**
 	 * 将字符串""转换成null
 	 * @param account
@@ -430,4 +401,104 @@ public class CoreUtil {
 			mutiSort=mutiSort.length()>2?mutiSort.substring(1, mutiSort.length()-1):"";
 			return mutiSort;
 		}
+	 /***********开始***********************通用日志打印处理参数核心代码*********************************************************/
+	 /**
+	  * 格式化传入参数
+	  */
+	 public static final String buildInputParamToString(Object[] args,Class<?>[] paremClassTypes){
+		    String inputArgString="";//传入参数格式化结果字符串
+		    List<Object> inputParamMap = new ArrayList<Object>(); // 传入参数
+			//优先级打印，request跟map和MutiSort以及其他参数共存时，优先打印request，不在打印map和mutiSort
+			int isReq=0,isMap=0,isMutiSort=0;//是否包含request
+			//优先级打印，request跟map和MutiSort对应的args下表位置
+			int isReqIndex=0,isMapIndex=0,isMutiSortIndex=0;//是否包含request
+			for (int i = 0; i < args.length; i++) {
+				//自身类.class.isAssignableFrom(自身类或子类.class)  返回true 
+				if (HttpServletRequest.class.isAssignableFrom(paremClassTypes[i])) {//优先request
+					isReq=1;
+					isReqIndex=i;
+				}
+				else if (Map.class.isAssignableFrom(paremClassTypes[i])) {//优先Map
+					isMap=1;
+					isMapIndex=i;
+				}
+				else if (MutiSort.class.isAssignableFrom(paremClassTypes[i])) {//MutiSort
+					isMutiSort=1;
+					isMutiSortIndex=i;
+				}
+			}
+			//打印数据处理
+		    if (isReq == 1&&HttpServletRequest.class.isAssignableFrom(paremClassTypes[isReqIndex])) {//打印request，最高优先级
+				HttpServletRequest req = (HttpServletRequest) args[isReqIndex];
+				inputParamMap.add(getParameterMap(req));
+			} 
+			else if(isMap == 1&& Map.class.isAssignableFrom(paremClassTypes[isMapIndex])) {//打印map，第二优先级
+				inputParamMap.add(args[isMapIndex]);
+			}else{//打印String,Integer,long常规数据类型
+				for (int i = 0; i < args.length; i++) {
+					    //排除Request,map,mutiSort剩下的参数打印处理
+					    if(isReq==1&&i==isReqIndex){//Request
+					    	continue;
+					    }else if(isMap==1&&i==isMapIndex){//map
+					    	continue;
+					    }else if(isMutiSort==1&&i==isMutiSortIndex){
+					    	continue;
+					    }else{
+					    	if (!HttpServletResponse.class.isAssignableFrom(paremClassTypes[i])) {// 排除response
+								inputParamMap.add(args[i]);
+							}
+					    }
+					    
+					    
+				}
+			}
+		    if (isMutiSort == 1&& MutiSort.class.isAssignableFrom(paremClassTypes[isMutiSortIndex])) {//打印MutiSort最后显示
+				inputParamMap.add(args[isMutiSortIndex]);
+			}
+		    StringBuffer sb=new StringBuffer(1024);
+		    inputParamMap.forEach(mp->{
+		    	if(Map.class.isAssignableFrom(mp.getClass())||mp instanceof Map){//如果是map类型
+		    		sb.append(mp.toString()).append("\t,\t");
+		    	}else if(MutiSort.class.isAssignableFrom(mp.getClass())||mp instanceof MutiSort){//MutiSort分页排序
+		    		sb.append(JSON.toJSONStringWithDateFormat(mp, "yyyy-MM-dd HH:mm:ss")).append("\t,\t");
+		    	}else if(String.class.isAssignableFrom(mp.getClass())||mp instanceof String){//String类型参数
+		    		 sb.append(mp).append("\t,\t");;
+		    	}else{
+		    		sb.append(JSON.toJSONStringWithDateFormat(mp, "yyyy-MM-dd HH:mm:ss")).append("\t,\t");
+		    	}
+		    });
+		    inputParamMap.clear();
+		    if(sb.indexOf("\t,\t")!=-1){
+		    	inputArgString=sb.substring(0, sb.lastIndexOf("\t,\t")).replaceAll("\t,\t", ", ");
+		    }
+		   return inputArgString; 
+	   }
+		
+		/**
+	     * 读取request参数到map
+	     */
+		public static final Map<String, Object> getParameterMap(HttpServletRequest request) {
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			Set<String> keys = request.getParameterMap().keySet();
+			for (String key : keys) {
+				resultMap.put(key, printString(request.getParameterValues(key)));
+			}
+			return resultMap;
+		}
+		
+	    /**
+		 * 字符串数组，格式化输出字符串
+		*/
+		public static final String printString(String[] arr) {
+			StringBuffer sb = new StringBuffer(1024);
+			for (int i = 0; i < arr.length; i++) {
+				if (i == arr.length - 1) {
+					sb.append(arr[i]);
+				} else {
+					sb.append(arr[i]).append(",");
+				}
+			}
+			return sb.toString();
+		}
+	 /***********结束***********************通用日志打印处理参数核心代码*********************************************************/
 }

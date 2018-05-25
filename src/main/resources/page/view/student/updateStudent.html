@@ -42,7 +42,7 @@
                             <th>年龄</th>
                             <td><input id='age'  name='age' value='${student.age}'/></td>
                             <th>生日</th>
-                            <td><input id='birthday'  name='birthday' class="required date" readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD'})"    value="<#if student.birthday ??>${student.birthday?string('yyyy-MM-dd HH:mm:ss')}</#if>"/></td>
+                            <td><input id='birthday'  name='birthday' class="required date" readonly='true' onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})"    value="<#if student.birthday ??>${student.birthday?string('yyyy-MM-dd HH:mm:ss')}</#if>"/></td>
                       </tr>
 
           </table>

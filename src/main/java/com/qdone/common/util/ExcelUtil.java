@@ -133,6 +133,7 @@ public class ExcelUtil {
 
 			return rowList;
 		} catch (Exception e) {
+			logger.error("异常"+e);
 			return null;
 		}
 	}
@@ -205,7 +206,7 @@ public class ExcelUtil {
 
 			return rowList;
 		} catch (Exception e) {
-			System.out.println("exception");
+			logger.error("readExcel2007异常"+e);
 			return null;
 		}
 	}

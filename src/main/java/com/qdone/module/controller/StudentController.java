@@ -1,22 +1,20 @@
 package com.qdone.module.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSON;
+import com.qdone.common.util.CacheUtil;
+import com.qdone.common.util.ExcelUtil;
+import com.qdone.common.util.SerialNo;
+import com.qdone.common.util.mail.MailService;
+import com.qdone.framework.annotation.Function;
+import com.qdone.framework.core.BaseController;
+import com.qdone.framework.exception.RRException;
+import com.qdone.framework.util.lock.RedisLock;
+import com.qdone.framework.util.lock.RedisLockKey;
+import com.qdone.module.model.Student;
+import com.qdone.module.service.StudentService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -33,31 +31,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSON;
-import com.qdone.common.util.CacheUtil;
-import com.qdone.common.util.ExcelUtil;
-import com.qdone.common.util.SerialNo;
-import com.qdone.common.util.mail.MailService;
-import com.qdone.framework.annotation.Function;
-import com.qdone.framework.core.BaseController;
-import com.qdone.framework.exception.RRException;
-import com.qdone.framework.util.lock.RedisLock;
-import com.qdone.framework.util.lock.RedisLockKey;
-import com.qdone.module.model.Student;
-import com.qdone.module.service.StudentService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * student管理
@@ -108,7 +95,7 @@ public class StudentController extends BaseController {
 		System.err.println(atomicLong.isExists());
 		atomicLong.delete();
 		System.err.println(atomicLong.isExists());
-		String[] arr = FileUtil.listFiles(new File("D://mail/upload"));
+		String[] arr = FileUtil.listFiles(new File(fileDir));
 		request.setAttribute("fileNames", arr);
 		cacheUtil.put("apple", "123456");
 		return "student/selectStudent";
@@ -120,12 +107,12 @@ public class StudentController extends BaseController {
 	/* @RequestMapping(value="/selectPage",headers="Accept=application/json") */
 	@RequestMapping(value = "/selectPage", method = RequestMethod.POST)
 	@ResponseBody
-	// @Function("查询分页")
+	@Function("查询分页")
 	@ApiOperation(value = "分页列表", notes = "分页列表", httpMethod = "POST", response = Map.class)
 	public Map<String, Object> selectPage(@RequestHeader("Accept") String encoding, @RequestBody Student entity) {
 		System.err.println(encoding);
 		System.err.println(cacheUtil.get("apple"));
-		/* System.err.println(1/0); */
+	    /*System.err.println(1/0); */
 		return responseSelectPage(studentService.selectPage(entity));
 	}
 

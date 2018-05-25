@@ -1,12 +1,13 @@
 package com.qdone.common.util;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author 付为地 
@@ -47,8 +48,10 @@ public class JexlUtil {
 		JexlEngine jexl = new JexlEngine();
 		Expression e = jexl.createExpression(jexlExp);
 		JexlContext jc = new MapContext();
-		for (String key : map.keySet()) {
-			jc.set(key, map.get(key)); 
+		Iterator<Map.Entry<String, Object>> it= map.entrySet().iterator();
+		while(it.hasNext()){
+			Map.Entry<String, Object> et=it.next();
+			jc.set(et.getKey(), et.getValue());
 		}
 		Object result=e.evaluate(jc);
 		if(result==null){
