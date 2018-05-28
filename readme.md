@@ -1,4 +1,4 @@
-﻿工作业余时间，结合项目使用技术点，整合到SpringBoot中，目前升级到2.0.2版本 ,您的宝贵意见，是我们进步的动力。<br>
+﻿工作业余时间，结合项目使用技术点，整合到SpringBoot中，目前升级到2.0.2版本,(码云提供有Mycat版本)，您的宝贵意见，是我们进步的动力。<br>
  <br> 
 **具有如下特点**   
 > * 友好的代码结构及注释，便于阅读及二次开发 。<br>
@@ -63,6 +63,7 @@ boot-walk<br>
  **用户反馈：**<br>
 - Git仓库： https://github.com/apple987/boot_walk <br>
 - 码云仓库： https://gitee.com/bootstrap2table/boot_master<br>
+- Mycat版本: https://gitee.com/bootstrap2table/boot_master/tree/feature/mycat<br>
 - 代码生成： https://github.com/apple987/AutoCode<br>
 - 邮箱地址:  m15171479289@163.com <br>
 		
