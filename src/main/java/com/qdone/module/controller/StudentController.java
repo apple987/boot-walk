@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import com.qdone.common.util.CacheUtil;
 import com.qdone.common.util.ExcelUtil;
 import com.qdone.common.util.SerialNo;
+import com.qdone.common.util.SessionUtil;
 import com.qdone.common.util.mail.MailService;
 import com.qdone.framework.annotation.Function;
 import com.qdone.framework.core.BaseController;
+import com.qdone.framework.core.constant.Constants;
 import com.qdone.framework.exception.RRException;
 import com.qdone.framework.util.lock.RedisLock;
 import com.qdone.framework.util.lock.RedisLockKey;
 import com.qdone.module.model.Student;
+import com.qdone.module.model.User;
 import com.qdone.module.service.StudentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -84,6 +87,7 @@ public class StudentController extends BaseController {
 		 * request.setAttribute("clientToken",token);
 		 * request.getSession().setAttribute("serverToken",token);
 		 */
+		SessionUtil.setSessionObject(Constants.CURRENT_USER,new User("灭霸","123456",1,""));
 		RAtomicLong atomicLong = redissonClient.getAtomicLong("test");
 		System.err.println(atomicLong.getAndAdd(10));
 		atomicLong.incrementAndGet();

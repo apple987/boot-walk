@@ -27,10 +27,12 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson.JSON;
 import com.qdone.common.util.MacUtils;
+import com.qdone.common.util.SessionUtil;
 import com.qdone.framework.annotation.Function;
 import com.qdone.framework.core.constant.Constants;
 import com.qdone.framework.core.page.CoreUtil;
 import com.qdone.framework.exception.RRException;
+import com.qdone.module.model.User;
 
 /**
  * 日志打印
@@ -83,12 +85,12 @@ public class LogPrinter {
 				methodName = pjp.getSignature().getName();
 				ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 				HttpServletRequest request = attributes.getRequest();
-				/*SysUsers user = (SysUsers) SessionUtil.getSessionObject(Constant.CURRENT_USER);
-				if (user != null && user.getLoginid() != null && !"".equals(user.getLoginid())) {
-					userName = user.getLoginid();
+				User user = (User) SessionUtil.getSessionObject(Constants.CURRENT_USER);
+				if (user != null && user.getName() != null && !"".equals(user.getName())) {
+					userName = user.getName();
 				} else {
 					userName = "未登录";
-				}*/
+				}
 				Object[] args = pjp.getArgs();
 				Method method = ((org.aspectj.lang.reflect.MethodSignature) pjp.getSignature()).getMethod();
 				Class<?>[] paremClassTypes = method.getParameterTypes();

@@ -1,10 +1,11 @@
 package com.qdone.module.model;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.ObjectUtils;
+
+import com.qdone.framework.core.page.MutiSort;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +14,7 @@ import io.swagger.annotations.ApiModelProperty;
  * 该代码由付为地的编码机器人自动生成 时间：2017-09-21 13:44:39
  */
 @ApiModel(value = "Solr对象", description = "数据库实体")
-public class Solr implements Serializable {
+public class Solr extends MutiSort  {
 
 	private static final long serialVersionUID = 1L;
 
